@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Optional;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -31,8 +32,30 @@ public class DataLoader implements CommandLineRunner {
             throw new RuntimeException("Failed to read JSON data", e);
         }
 
-        System.out.println(jsonDataFile);
+//        JsonNode persons = getPersons(jsonDataFile);
+//        JsonNode firestations = getFirestations(jsonDataFile);
+//        JsonNode medicalrecords = getMedicalrecords(jsonDataFile);
+//        System.out.println(medicalrecords);
+
 
 
     }
+    private JsonNode getPersons(JsonNode jsonDataFile) {
+        return Optional.ofNullable(jsonDataFile)
+                .map(j -> j.get("persons"))
+                .orElseThrow(() -> new IllegalArgumentException("Invalid JSON Object"));
+    }
+
+    private JsonNode getFirestations(JsonNode jsonDataFile) {
+        return Optional.ofNullable(jsonDataFile)
+                .map(j -> j.get("firestations"))
+                .orElseThrow(() -> new IllegalArgumentException("Invalid JSON Object"));
+    }
+
+    private JsonNode getMedicalrecords(JsonNode jsonDataFile) {
+        return Optional.ofNullable(jsonDataFile)
+                .map(j -> j.get("medicalrecords"))
+                .orElseThrow(() -> new IllegalArgumentException("Invalid JSON Object"));
+    }
+
 }
