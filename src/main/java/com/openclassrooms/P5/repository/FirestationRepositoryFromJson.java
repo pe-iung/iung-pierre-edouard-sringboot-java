@@ -4,6 +4,7 @@ import com.openclassrooms.P5.model.Firestation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +13,7 @@ import java.util.Optional;
 public class FirestationRepositoryFromJson implements FirestationRepository{
 
     private final DataLoader dataLoader;
-
+    //private List<Firestation> firestations = new ArrayList<>();
     public Firestation getFirestationByAddress(String address) {
 
         return findFirestationByAddress(address).orElseThrow(() -> new RuntimeException("Not found"));
@@ -37,5 +38,15 @@ public class FirestationRepositoryFromJson implements FirestationRepository{
     @Override
     public List<Firestation> getFirestations() {
         return this.dataLoader.getFirestations();
+    }
+
+
+    public Firestation addFirestation(Firestation firestation) {
+        dataLoader.addFirestation(firestation);
+        return firestation;
+    }
+
+    public boolean deleteFirestationByAddress(String address) {
+        return dataLoader.deleteFirestationByAddress(address); // Delete from DataLoader
     }
 }

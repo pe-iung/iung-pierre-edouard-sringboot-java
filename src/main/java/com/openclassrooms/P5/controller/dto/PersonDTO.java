@@ -1,4 +1,4 @@
-package com.openclassrooms.P5.dto;
+package com.openclassrooms.P5.controller.dto;
 import lombok.Data;
 
 @Data

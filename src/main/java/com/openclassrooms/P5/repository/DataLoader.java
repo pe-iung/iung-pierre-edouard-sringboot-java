@@ -38,6 +38,22 @@ public class DataLoader {
         return dataStorage.getMedicalrecords();
     }
 
+    public void addFirestation(Firestation firestation) {
+        dataStorage.getFirestations().add(firestation);
+        log.info("New firestation added: {}", firestation);
+    }
+
+    public boolean deleteFirestationByAddress(String address) {
+        List<Firestation> firestations = dataStorage.getFirestations();
+        boolean removed = firestations.removeIf(firestation -> firestation.getAddress().equals(address));
+        if (removed) {
+            log.info("Firestation removed at address: {}", address);
+        } else {
+            log.warn("No firestation found at address: {}", address);
+        }
+        return removed;
+    }
+
 
     @Data
     static class DataStorage {

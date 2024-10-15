@@ -1,10 +1,12 @@
 package com.openclassrooms.P5.controller;
 
-import com.openclassrooms.P5.dto.FirestationDTO;
+import com.openclassrooms.P5.controller.dto.*;
+import com.openclassrooms.P5.model.Firestation;
 import com.openclassrooms.P5.service.FirestationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,14 +19,30 @@ suivantes : prénom, nom, adresse, numéro de téléphone. De plus, elle doit fo
 décompte du nombre d'adultes et du nombre d'enfants (tout individu âgé de 18 ans ou
 moins) dans la zone desservie.
  */
+@RequiredArgsConstructor
 @RestController
 public class FirestationController {
 
-    @Autowired
-    private FirestationService firestationService;
+    private final FirestationService firestationService;
 
     @GetMapping("/firestations")
     public List<FirestationDTO> getAllFirestations(){
         return firestationService.getAllFirestationDTO();
+    }
+
+    @PostMapping("/firestations")
+    public FirestationAddedResponse addFirestation(@Validated @RequestBody AddFirestationRequest firestationRequest) {
+
+        Firestation firestation = new Firestation(firestationRequest.getAddress(), firestationRequest.getStation());
+
+        Firestation savedFirestation =  firestationService.saveFirestation(firestation);
+
+        return new FirestationAddedResponse(savedFirestation);
+    }
+
+
+    @DeleteMapping("/firestations/{address}")
+    public void deleteFirestation(@PathVariable String address) {
+        firestationService.deleteFirestationByAddress(address);
     }
 }
