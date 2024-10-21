@@ -80,9 +80,9 @@ public class DataLoader {
         List<Person> persons = dataStorage.getPersons();
         boolean removed = persons.removeIf(person -> person.getId().equals(id));
         if (removed) {
-            log.info("Person removed with id= forstname-lastname: {}", id);
+            log.info("Person removed with id= firstname-lastname: {}", id);
         } else {
-            log.warn("No person found with id= forstname-lastname: {}", id);
+            log.warn("No person found with id= firstname-lastname: {}", id);
         }
         return removed;
     }
