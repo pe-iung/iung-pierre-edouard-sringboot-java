@@ -56,7 +56,7 @@ public class DataLoader {
 
     public void addMedicalRecord(MedicalRecord medicalRecord) {
         dataStorage.getMedicalrecords().add(medicalRecord);
-        log.info("New firestation added: {}", medicalRecord);
+        log.info("New Medicalrecord added: {}", medicalRecord);
     }
 
     public boolean deleteMedicalRecordById(String id) {
