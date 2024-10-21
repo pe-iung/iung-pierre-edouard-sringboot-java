@@ -1,10 +1,11 @@
 package com.openclassrooms.P5.controller;
 
 import com.openclassrooms.P5.controller.dto.*;
+import com.openclassrooms.P5.controller.dto.firestation.post.AddFirestationRequest;
+import com.openclassrooms.P5.controller.dto.firestation.post.FirestationAddedResponse;
 import com.openclassrooms.P5.model.Firestation;
 import com.openclassrooms.P5.service.FirestationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,9 +1,7 @@
-package com.openclassrooms.P5.controller.dto;
+package com.openclassrooms.P5.controller.dto.firestation.post;
 
-import com.openclassrooms.P5.model.Firestation;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
-import lombok.Data;
 import lombok.Value;
 
 @Value

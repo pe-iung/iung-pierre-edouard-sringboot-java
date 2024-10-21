@@ -3,16 +3,17 @@ package com.openclassrooms.P5.service;
 import com.openclassrooms.P5.controller.dto.FirestationDTO;
 import com.openclassrooms.P5.model.Firestation;
 import com.openclassrooms.P5.repository.FirestationRepositoryFromJson;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class FirestationService {
 
-    @Autowired
-    private FirestationRepositoryFromJson firestationRepositoryFromJson;
+    private final FirestationRepositoryFromJson firestationRepositoryFromJson;
 
     public List<FirestationDTO> getAllFirestationDTO(){
         return firestationRepositoryFromJson.getFirestations()
