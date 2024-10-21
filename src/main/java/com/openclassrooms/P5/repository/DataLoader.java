@@ -34,7 +34,7 @@ public class DataLoader {
     public List<Firestation> getFirestations(){
         return dataStorage.getFirestations();
     }
-    public List<MedicalRecord> getMedicalrecords(){
+    public List<MedicalRecord> getMedicalRecords(){
         return dataStorage.getMedicalrecords();
     }
 
@@ -50,6 +50,39 @@ public class DataLoader {
             log.info("Firestation removed at address: {}", address);
         } else {
             log.warn("No firestation found at address: {}", address);
+        }
+        return removed;
+    }
+
+    public void addMedicalRecord(MedicalRecord medicalRecord) {
+        dataStorage.getMedicalrecords().add(medicalRecord);
+        log.info("New firestation added: {}", medicalRecord);
+    }
+
+    public boolean deleteMedicalRecordById(String id) {
+        List<MedicalRecord> medicalRecords = dataStorage.getMedicalrecords();
+        boolean removed = medicalRecords.removeIf(
+                medicalRecord -> medicalRecord.getId().equals(id));
+        if (removed) {
+            log.info("Medical record removed for id = first-lastname: {}", id);
+        } else {
+            log.warn("No medical record found for id = first-lastname: {}", id);
+        }
+        return removed;
+    }
+
+    public void addPerson(Person person) {
+        dataStorage.getPersons().add(person);
+        log.info("New person added: {}", person);
+    }
+
+    public boolean deletePersonById(String id) {
+        List<Person> persons = dataStorage.getPersons();
+        boolean removed = persons.removeIf(person -> person.getId().equals(id));
+        if (removed) {
+            log.info("Person removed with id= forstname-lastname: {}", id);
+        } else {
+            log.warn("No person found with id= forstname-lastname: {}", id);
         }
         return removed;
     }

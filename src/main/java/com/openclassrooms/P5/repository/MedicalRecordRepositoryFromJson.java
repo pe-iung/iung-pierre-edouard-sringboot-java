@@ -1,5 +1,6 @@
 package com.openclassrooms.P5.repository;
 
+import com.openclassrooms.P5.model.Firestation;
 import com.openclassrooms.P5.model.MedicalRecord;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -24,6 +25,15 @@ public class MedicalRecordRepositoryFromJson implements MedicalRecordRepository{
 
     @Override
     public List<MedicalRecord> getMedicalRecords() {
-        return this.dataLoader.getMedicalrecords();
+        return this.dataLoader.getMedicalRecords();
+    }
+
+    public MedicalRecord addMedicalRecord(MedicalRecord medicalRecord) {
+        dataLoader.addMedicalRecord(medicalRecord);
+        return medicalRecord;
+    }
+
+    public boolean deleteMedicalRecordByFirstnameAndLastname(String id) {
+        return dataLoader.deleteMedicalRecordById(id);
     }
 }
