@@ -2,6 +2,7 @@ package com.openclassrooms.P5.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -9,6 +10,7 @@ import java.time.Period;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
 public class MedicalRecord {
     private String firstName;
     private String lastName;

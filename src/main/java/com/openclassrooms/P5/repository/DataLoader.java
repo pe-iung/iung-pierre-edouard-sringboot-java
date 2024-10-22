@@ -1,5 +1,6 @@
 package com.openclassrooms.P5.repository;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openclassrooms.P5.model.Firestation;
 import com.openclassrooms.P5.model.MedicalRecord;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @Slf4j
 @Component
+//@JsonFormat(pattern = "MM/dd/yyyy")
 public class DataLoader {
 
     private final DataStorage dataStorage;
@@ -22,6 +24,7 @@ public class DataLoader {
 
     public DataLoader(ObjectMapper objectMapper) throws IOException {
        InputStream inputStream = TypeReference.class.getResourceAsStream("/data/data.json");
+
        dataStorage = objectMapper.readValue(inputStream, DataStorage.class);
 
        log.info("Data loaded");
