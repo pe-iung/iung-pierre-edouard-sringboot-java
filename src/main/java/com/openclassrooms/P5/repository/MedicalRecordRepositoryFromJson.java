@@ -33,7 +33,12 @@ public class MedicalRecordRepositoryFromJson implements MedicalRecordRepository{
         return medicalRecord;
     }
 
-    public boolean deleteMedicalRecordByFirstnameAndLastname(String id) {
+    /**
+     *
+     * @param id is the concatenation of "firstname" + "-" + "lastname"
+     * @return true
+     */
+    public boolean deleteMedicalRecordById(String id) {
         return dataLoader.deleteMedicalRecordById(id);
     }
 }
