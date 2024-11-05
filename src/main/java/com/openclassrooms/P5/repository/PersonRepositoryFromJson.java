@@ -41,6 +41,7 @@ public class PersonRepositoryFromJson implements PersonRepository{
         return this.dataLoader.getPersons();
     }
 
+    @Override
     public Person addPerson(Person person) {
         dataLoader.addPerson(person);
         return person;
@@ -51,6 +52,7 @@ public class PersonRepositoryFromJson implements PersonRepository{
      * @param id is the concatenation of "firstname" + "-" + "lastname"
      * @return true
      */
+    @Override
     public boolean deletePersonById(String id) {
         return dataLoader.deletePersonById(id);
     }

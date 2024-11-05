@@ -1,4 +1,4 @@
-package com.openclassrooms.P5.controller.dto.person.post;
+package com.openclassrooms.P5.dto.person.post;
 
 import com.openclassrooms.P5.model.Person;
 import lombok.Value;

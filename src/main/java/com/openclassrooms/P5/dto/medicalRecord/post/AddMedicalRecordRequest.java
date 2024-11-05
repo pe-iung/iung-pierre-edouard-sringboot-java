@@ -1,4 +1,4 @@
-package com.openclassrooms.P5.controller.dto.medicalRecord.post;
+package com.openclassrooms.P5.dto.medicalRecord.post;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
@@ -31,7 +31,6 @@ public class AddMedicalRecordRequest {
     private String lastName;
 
     @NotBlank(message = "birthdate can not be null, empty or blank and should follow this pattern MM/dd/yyyy")
-    @JsonFormat(pattern = "MM/dd/yyyy")
     private LocalDate birthdate;
 
     private List<String> medications;

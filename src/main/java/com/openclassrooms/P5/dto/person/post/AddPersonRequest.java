@@ -1,4 +1,4 @@
-package com.openclassrooms.P5.controller.dto.person.post;
+package com.openclassrooms.P5.dto.person.post;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Value;

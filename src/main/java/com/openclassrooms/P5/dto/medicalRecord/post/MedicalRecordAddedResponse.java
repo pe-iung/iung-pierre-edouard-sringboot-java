@@ -1,4 +1,4 @@
-package com.openclassrooms.P5.controller.dto.medicalRecord.post;
+package com.openclassrooms.P5.dto.medicalRecord.post;
 
 
 import com.openclassrooms.P5.model.Firestation;

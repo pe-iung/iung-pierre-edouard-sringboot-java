@@ -1,19 +1,12 @@
 package com.openclassrooms.P5.controller;
 
-import com.openclassrooms.P5.controller.dto.FirestationDTO;
-import com.openclassrooms.P5.controller.dto.PersonDTO;
-import com.openclassrooms.P5.controller.dto.firestation.post.AddFirestationRequest;
-import com.openclassrooms.P5.controller.dto.firestation.post.FirestationAddedResponse;
-import com.openclassrooms.P5.controller.dto.person.post.AddPersonRequest;
-import com.openclassrooms.P5.controller.dto.person.post.PersonAddedResponse;
-import com.openclassrooms.P5.model.Firestation;
+import com.openclassrooms.P5.dto.person.post.AddPersonRequest;
+import com.openclassrooms.P5.dto.person.post.PersonAddedResponse;
 import com.openclassrooms.P5.model.Person;
 import com.openclassrooms.P5.service.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController

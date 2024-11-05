@@ -40,13 +40,15 @@ public class FirestationRepositoryFromJson implements FirestationRepository{
         return this.dataLoader.getFirestations();
     }
 
-
+    @Override
     public Firestation addFirestation(Firestation firestation) {
         dataLoader.addFirestation(firestation);
         return firestation;
     }
 
+    @Override
     public boolean deleteFirestationByAddress(String address) {
         return dataLoader.deleteFirestationByAddress(address); // Delete from DataLoader
     }
+
 }

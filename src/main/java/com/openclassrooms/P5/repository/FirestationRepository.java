@@ -13,4 +13,8 @@ public interface FirestationRepository {
 
     List<Firestation> getFirestations();
 
+    Firestation addFirestation(Firestation firestation);
+
+    boolean deleteFirestationByAddress(String address);
+
 }

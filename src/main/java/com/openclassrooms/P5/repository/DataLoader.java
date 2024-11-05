@@ -14,9 +14,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+
 @Slf4j
 @Component
 //@JsonFormat(pattern = "MM/dd/yyyy")
+//@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy")
 public class DataLoader {
 
     private final DataStorage dataStorage;
@@ -41,6 +43,10 @@ public class DataLoader {
         return dataStorage.getMedicalrecords();
     }
 
+
+    //ToDo : A bouger dans les services / repositories
+
+
     public void addFirestation(Firestation firestation) {
         dataStorage.getFirestations().add(firestation);
         log.info("New firestation added: {}", firestation);
@@ -55,6 +61,11 @@ public class DataLoader {
             log.warn("No firestation found at address: {}", address);
         }
         return removed;
+    }
+
+    public void updateFirestation(Firestation oldFirestation, Firestation newFirestation) {
+        int index = dataStorage.getFirestations().indexOf(oldFirestation);
+        dataStorage.getFirestations().set(index, newFirestation);
     }
 
     public void addMedicalRecord(MedicalRecord medicalRecord) {

@@ -1,11 +1,8 @@
 package com.openclassrooms.P5.controller;
 
-import com.openclassrooms.P5.controller.dto.medicalRecord.post.AddMedicalRecordRequest;
-import com.openclassrooms.P5.controller.dto.medicalRecord.post.MedicalRecordAddedResponse;
-import com.openclassrooms.P5.controller.dto.person.post.AddPersonRequest;
-import com.openclassrooms.P5.controller.dto.person.post.PersonAddedResponse;
+import com.openclassrooms.P5.dto.medicalRecord.post.AddMedicalRecordRequest;
+import com.openclassrooms.P5.dto.medicalRecord.post.MedicalRecordAddedResponse;
 import com.openclassrooms.P5.model.MedicalRecord;
-import com.openclassrooms.P5.model.Person;
 import com.openclassrooms.P5.service.MedicalRecordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;

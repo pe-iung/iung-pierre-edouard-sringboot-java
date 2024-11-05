@@ -1,9 +1,7 @@
 package com.openclassrooms.P5.service;
 
 import com.openclassrooms.P5.model.MedicalRecord;
-import com.openclassrooms.P5.model.Person;
-import com.openclassrooms.P5.repository.MedicalRecordRepositoryFromJson;
-import com.openclassrooms.P5.repository.PersonRepositoryFromJson;
+import com.openclassrooms.P5.repository.MedicalRecordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,14 +9,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class MedicalRecordService {
 
-    private final MedicalRecordRepositoryFromJson medicalRecordRepositoryFromJson;
+    private final MedicalRecordRepository medicalRecordRepository;
 
     public MedicalRecord saveMedicalRecord(MedicalRecord medicalRecord) {
-        medicalRecordRepositoryFromJson.addMedicalRecord(medicalRecord);
+        medicalRecordRepository.addMedicalRecord(medicalRecord);
         return medicalRecord;
     }
 
     public void deleteMedicalRecordById(String id) {
-        medicalRecordRepositoryFromJson.deleteMedicalRecordById(id);
+        medicalRecordRepository.deleteMedicalRecordById(id);
     }
 }

@@ -1,8 +1,10 @@
 package com.openclassrooms.P5.controller;
 
-import com.openclassrooms.P5.controller.dto.*;
-import com.openclassrooms.P5.controller.dto.firestation.post.AddFirestationRequest;
-import com.openclassrooms.P5.controller.dto.firestation.post.FirestationAddedResponse;
+import com.openclassrooms.P5.dto.FirestationDTO;
+import com.openclassrooms.P5.dto.firestation.post.AddFirestationRequest;
+import com.openclassrooms.P5.dto.firestation.post.FirestationAddedResponse;
+import com.openclassrooms.P5.dto.firestation.put.FirestationUpdatedResponse;
+import com.openclassrooms.P5.dto.firestation.put.UpdateFirestationRequest;
 import com.openclassrooms.P5.model.Firestation;
 import com.openclassrooms.P5.service.FirestationService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 /*
 http://localhost:8080/firestation?stationNumber=<station_number>
@@ -45,5 +48,20 @@ public class FirestationController {
     @DeleteMapping("/firestations/{address}")
     public void deleteFirestation(@PathVariable String address) {
         firestationService.deleteFirestationByAddress(address);
+    }
+    // response ok
+    @PutMapping("/firestations")
+    public FirestationUpdatedResponse updateFirestation(@Validated @RequestBody UpdateFirestationRequest firestationRequest){
+
+        Optional<Firestation> existingFirestation = this.firestationService.getFirestationByAdress(firestationRequest.getAddress());
+
+        Firestation updatedFirestation = new Firestation(firestationRequest.getAddress(),firestationRequest.getStation());
+        FirestationUpdatedResponse firestationUpdatedResponse = new FirestationUpdatedResponse(updatedFirestation);
+
+        if(existingFirestation.isPresent()){
+            updatedFirestation = this.firestationService.updateFirestation(existingFirestation.get(), updatedFirestation);
+            return firestationUpdatedResponse;
+        }
+        return firestationUpdatedResponse;
     }
 }

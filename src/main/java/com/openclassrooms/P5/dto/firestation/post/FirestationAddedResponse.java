@@ -1,4 +1,4 @@
-package com.openclassrooms.P5.controller.dto.firestation.post;
+package com.openclassrooms.P5.dto.firestation.post;
 import com.openclassrooms.P5.model.Firestation;
 
 import lombok.Value;

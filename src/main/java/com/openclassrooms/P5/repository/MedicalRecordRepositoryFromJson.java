@@ -1,5 +1,6 @@
 package com.openclassrooms.P5.repository;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.openclassrooms.P5.model.Firestation;
 import com.openclassrooms.P5.model.MedicalRecord;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class MedicalRecordRepositoryFromJson implements MedicalRecordRepository{
         return this.dataLoader.getMedicalRecords();
     }
 
+    @Override
     public MedicalRecord addMedicalRecord(MedicalRecord medicalRecord) {
         dataLoader.addMedicalRecord(medicalRecord);
         return medicalRecord;
@@ -38,6 +40,7 @@ public class MedicalRecordRepositoryFromJson implements MedicalRecordRepository{
      * @param id is the concatenation of "firstname" + "-" + "lastname"
      * @return true
      */
+    @Override
     public boolean deleteMedicalRecordById(String id) {
         return dataLoader.deleteMedicalRecordById(id);
     }
