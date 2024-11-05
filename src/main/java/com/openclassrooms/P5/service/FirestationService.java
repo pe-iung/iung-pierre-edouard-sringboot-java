@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class FirestationService {
+public class FirestationService implements FirestationServiceInterface {
 
     private final FirestationRepository firestationRepository;
 
