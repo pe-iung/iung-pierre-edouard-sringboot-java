@@ -1,6 +1,7 @@
 package com.openclassrooms.P5.dto.medicalRecord.post;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.openclassrooms.P5.model.Firestation;
 import com.openclassrooms.P5.model.MedicalRecord;
 import lombok.Value;

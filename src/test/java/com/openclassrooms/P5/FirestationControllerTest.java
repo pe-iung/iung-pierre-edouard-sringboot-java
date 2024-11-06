@@ -26,22 +26,6 @@ public class FirestationControllerTest {
     @Autowired
     private FirestationRepository repository;
 
-//    @Mock
-//    private FirestationService firestationService;
-//
-//    @InjectMocks
-//    private FirestationController firestationController;
-//
-//
-//    private MockMvc mockMvc;
-//
-//    @BeforeEach
-//    public void setup() {
-//        MockitoAnnotations.openMocks(this);
-//        mockMvc = MockMvcBuilders.standaloneSetup(firestationController).build();
-//    }
-
-
     @Autowired
     private ObjectMapper objectMapper;
 
