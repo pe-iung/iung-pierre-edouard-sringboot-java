@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class MedicalRecordServiceImpl {
+public class MedicalRecordServiceImpl implements MedicalRecordService{
 
     private final MedicalRecordRepository medicalRecordRepository;
 
