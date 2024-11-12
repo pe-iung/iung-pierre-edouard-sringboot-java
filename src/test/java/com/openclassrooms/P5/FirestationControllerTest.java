@@ -49,7 +49,7 @@ public class FirestationControllerTest {
         
         
         // then
-        response.andExpect(status().isOk())  // Verify status is OK
+        response.andExpect(status().isCreated())  // Verify status is OK
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))  // Verify content type is JSON
                 .andExpect(jsonPath("$.address").value(stationAddress))  // Verify response data
                 .andExpect(jsonPath("$.station").value(stationNumber));
