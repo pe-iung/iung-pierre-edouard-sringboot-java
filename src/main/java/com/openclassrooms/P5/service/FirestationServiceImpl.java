@@ -1,6 +1,7 @@
 package com.openclassrooms.P5.service;
 
 import com.openclassrooms.P5.dto.FirestationDTO;
+import com.openclassrooms.P5.dto.firestation.put.UpdateFirestationRequest;
 import com.openclassrooms.P5.model.Firestation;
 import com.openclassrooms.P5.repository.FirestationRepository;
 import lombok.RequiredArgsConstructor;
@@ -64,6 +65,17 @@ public class FirestationServiceImpl implements FirestationService {
         int index = firestationRepository.getFirestations().indexOf(oldFirestation);
         firestationRepository.getFirestations().set(index, newFirestation);
         return newFirestation;
+    }
+
+    public void updateFirestationRequestIfAdressExist(UpdateFirestationRequest firestationRequest){
+
+        Optional<Firestation> existingFirestation = this.getFirestationByAdress(firestationRequest.getAddress());
+
+        Firestation updatedFirestation = new Firestation(firestationRequest.getAddress(),firestationRequest.getStation());
+
+        if(existingFirestation.isPresent()){
+            updatedFirestation = this.updateFirestation(existingFirestation.get(), updatedFirestation);
+        }
     }
 
 

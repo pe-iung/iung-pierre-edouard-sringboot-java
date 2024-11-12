@@ -2,7 +2,6 @@ package com.openclassrooms.P5.controller;
 
 import com.openclassrooms.P5.dto.FirestationDTO;
 import com.openclassrooms.P5.dto.firestation.post.AddFirestationRequest;
-import com.openclassrooms.P5.dto.firestation.put.FirestationUpdatedResponse;
 import com.openclassrooms.P5.dto.firestation.put.UpdateFirestationRequest;
 import com.openclassrooms.P5.model.Firestation;
 import com.openclassrooms.P5.service.FirestationServiceImpl;
@@ -54,17 +53,11 @@ public class FirestationController {
 
     // response ok
     @PutMapping("/firestations")
-    public FirestationUpdatedResponse updateFirestation(@Validated @RequestBody UpdateFirestationRequest firestationRequest){
+    public ResponseEntity<UpdateFirestationRequest> updateFirestation(@Validated @RequestBody UpdateFirestationRequest firestationRequest){
+        // TODO 1/ ask if moving logic to service was done "properly"
+        // TODO 2/ should I send different httpStatus if the firestation was not found ? how?
 
-        Optional<Firestation> existingFirestation = this.firestationServiceImpl.getFirestationByAdress(firestationRequest.getAddress());
-
-        Firestation updatedFirestation = new Firestation(firestationRequest.getAddress(),firestationRequest.getStation());
-        FirestationUpdatedResponse firestationUpdatedResponse = new FirestationUpdatedResponse(updatedFirestation);
-
-        if(existingFirestation.isPresent()){
-            updatedFirestation = this.firestationServiceImpl.updateFirestation(existingFirestation.get(), updatedFirestation);
-            return firestationUpdatedResponse;
-        }
-        return firestationUpdatedResponse;
+        firestationServiceImpl.updateFirestationRequestIfAdressExist(firestationRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(firestationRequest);
     }
 }
