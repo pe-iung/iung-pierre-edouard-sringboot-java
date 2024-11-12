@@ -42,9 +42,8 @@ public class PersonRepositoryFromJson implements PersonRepository{
     }
 
     @Override
-    public Person addPerson(Person person) {
+    public void addPerson(Person person) {
         dataLoader.addPerson(person);
-        return person;
     }
 
     /**
@@ -53,7 +52,7 @@ public class PersonRepositoryFromJson implements PersonRepository{
      * @return true
      */
     @Override
-    public boolean deletePersonById(String id) {
-        return dataLoader.deletePersonById(id);
+    public void deletePersonById(String id) {
+        dataLoader.deletePersonById(id);
     }
 }

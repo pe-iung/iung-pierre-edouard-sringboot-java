@@ -8,7 +8,7 @@ public interface MedicalRecordRepository {
 
     List<MedicalRecord> getMedicalRecords();
 
-    MedicalRecord addMedicalRecord(MedicalRecord medicalRecord);
-    boolean deleteMedicalRecordById(String id);
+    void addMedicalRecord(MedicalRecord medicalRecord);
+    void deleteMedicalRecordById(String id);
 
 }

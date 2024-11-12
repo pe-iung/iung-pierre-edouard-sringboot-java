@@ -16,8 +16,8 @@ public interface PersonRepository {
     List<Person> getPersonByFirstnameAndLastname(String firstname, String lastname);
 
     List<Person> getPersons();
-    Person addPerson(Person person);
+    void addPerson(Person person);
 
-    boolean deletePersonById(String id);
+    void deletePersonById(String id);
 
 }

@@ -30,9 +30,8 @@ public class MedicalRecordRepositoryFromJson implements MedicalRecordRepository{
     }
 
     @Override
-    public MedicalRecord addMedicalRecord(MedicalRecord medicalRecord) {
+    public void addMedicalRecord(MedicalRecord medicalRecord) {
         dataLoader.addMedicalRecord(medicalRecord);
-        return medicalRecord;
     }
 
     /**
@@ -41,7 +40,7 @@ public class MedicalRecordRepositoryFromJson implements MedicalRecordRepository{
      * @return true
      */
     @Override
-    public boolean deleteMedicalRecordById(String id) {
-        return dataLoader.deleteMedicalRecordById(id);
+    public void deleteMedicalRecordById(String id) {
+        dataLoader.deleteMedicalRecordById(id);
     }
 }
