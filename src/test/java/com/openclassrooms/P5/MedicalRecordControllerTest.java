@@ -56,17 +56,16 @@ public class MedicalRecordControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(addMedicalRecordRequest)));
 
-        // Then
-        response.andExpect(status().isOk())  // Verify status is OK
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))  // Verify content type is JSON
-                .andExpect(jsonPath("$.firstName").value(firstName))  // Verify response data
+        // Then verify the response data is as expected
+        response.andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.firstName").value(firstName))
                 .andExpect(jsonPath("$.lastName").value(lastName))
-                //TODO how to check a date ?
-                // .andExpect(jsonPath("$.birthdate").value(birthdate).toString())
                 .andExpect(jsonPath("$.birthdate").value(birthdate.toString()))
                 .andExpect(jsonPath("$.medications").isEmpty())
                 .andExpect(jsonPath("$.allergies[0]").value(allergies.get(0)));
 
+        // Then verify the data was successfully added tyo the repository
         final List<MedicalRecord> savedResponse = medicalRecordRepository.getMedicalRecordByFirstnameAndLastname(firstName,lastName);
         Assertions.assertThat(savedResponse)
                 .hasSize(1)
