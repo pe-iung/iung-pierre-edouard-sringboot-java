@@ -5,7 +5,7 @@ import com.openclassrooms.P5.dto.firestation.post.AddFirestationRequest;
 import com.openclassrooms.P5.dto.firestation.put.FirestationUpdatedResponse;
 import com.openclassrooms.P5.dto.firestation.put.UpdateFirestationRequest;
 import com.openclassrooms.P5.model.Firestation;
-import com.openclassrooms.P5.service.FirestationService;
+import com.openclassrooms.P5.service.FirestationServiceImpl;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,39 +29,40 @@ moins) dans la zone desservie.
 @RestController
 public class FirestationController {
 
-    private final FirestationService firestationService;
+    private final FirestationServiceImpl firestationServiceImpl;
 
     @GetMapping("/firestations")
     public List<FirestationDTO> getAllFirestations(){
-        return firestationService.getAllFirestationDTO();
+        return firestationServiceImpl.getAllFirestationDTO();
     }
 
     @PostMapping("/firestations")
     public ResponseEntity<Firestation> addFirestation(@Validated @RequestBody AddFirestationRequest firestationRequest) {
+    // TODO : ask if it's better to return ResponseEntity<FirestationAddedResponse> to use DTO object instead of Firestation one
 
         Firestation firestation = new Firestation(firestationRequest.getAddress(), firestationRequest.getStation());
 
-        Firestation savedFirestation =  firestationService.saveFirestation(firestation);
+        Firestation savedFirestation =  firestationServiceImpl.saveFirestation(firestation);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedFirestation);
     }
 
 
     @DeleteMapping("/firestations/{address}")
     public void deleteFirestation(@PathVariable @Validated @NotBlank String address) {
-        firestationService.deleteFirestationByAddress(address);
+        firestationServiceImpl.deleteFirestationByAddress(address);
     }
 
     // response ok
     @PutMapping("/firestations")
     public FirestationUpdatedResponse updateFirestation(@Validated @RequestBody UpdateFirestationRequest firestationRequest){
 
-        Optional<Firestation> existingFirestation = this.firestationService.getFirestationByAdress(firestationRequest.getAddress());
+        Optional<Firestation> existingFirestation = this.firestationServiceImpl.getFirestationByAdress(firestationRequest.getAddress());
 
         Firestation updatedFirestation = new Firestation(firestationRequest.getAddress(),firestationRequest.getStation());
         FirestationUpdatedResponse firestationUpdatedResponse = new FirestationUpdatedResponse(updatedFirestation);
 
         if(existingFirestation.isPresent()){
-            updatedFirestation = this.firestationService.updateFirestation(existingFirestation.get(), updatedFirestation);
+            updatedFirestation = this.firestationServiceImpl.updateFirestation(existingFirestation.get(), updatedFirestation);
             return firestationUpdatedResponse;
         }
         return firestationUpdatedResponse;

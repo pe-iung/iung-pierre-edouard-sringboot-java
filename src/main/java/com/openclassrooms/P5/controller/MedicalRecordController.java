@@ -3,7 +3,7 @@ package com.openclassrooms.P5.controller;
 import com.openclassrooms.P5.dto.medicalRecord.post.AddMedicalRecordRequest;
 import com.openclassrooms.P5.dto.medicalRecord.post.MedicalRecordAddedResponse;
 import com.openclassrooms.P5.model.MedicalRecord;
-import com.openclassrooms.P5.service.MedicalRecordService;
+import com.openclassrooms.P5.service.MedicalRecordServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class MedicalRecordController {
 
-    private final MedicalRecordService medicalRecordService;
+    private final MedicalRecordServiceImpl medicalRecordServiceImpl;
 
     @PostMapping("/medicalRecords")
     public MedicalRecordAddedResponse addMedicalRecord(@Validated @RequestBody AddMedicalRecordRequest addMedicalRecordRequest) {
@@ -25,7 +25,7 @@ public class MedicalRecordController {
                 addMedicalRecordRequest.getAllergies()
         );
 
-        MedicalRecord savedMedicalRecord =  medicalRecordService.saveMedicalRecord(medicalRecord);
+        MedicalRecord savedMedicalRecord =  medicalRecordServiceImpl.saveMedicalRecord(medicalRecord);
 
         return new MedicalRecordAddedResponse(savedMedicalRecord);
     }
@@ -36,6 +36,6 @@ public class MedicalRecordController {
      */
     @DeleteMapping("/medicalRecord/{id}")
     public void deleteMedicalRecordById(@PathVariable String id) {
-        medicalRecordService.deleteMedicalRecordById(id);
+        medicalRecordServiceImpl.deleteMedicalRecordById(id);
     }
 }

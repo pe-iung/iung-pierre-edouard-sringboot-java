@@ -1,14 +1,9 @@
 package com.openclassrooms.P5;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.openclassrooms.P5.dto.firestation.post.AddFirestationRequest;
 import com.openclassrooms.P5.dto.medicalRecord.post.AddMedicalRecordRequest;
-import com.openclassrooms.P5.model.Firestation;
 import com.openclassrooms.P5.model.MedicalRecord;
 import com.openclassrooms.P5.repository.MedicalRecordRepository;
-import net.bytebuddy.asm.Advice;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

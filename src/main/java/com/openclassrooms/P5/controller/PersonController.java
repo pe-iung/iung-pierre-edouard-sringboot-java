@@ -3,7 +3,7 @@ package com.openclassrooms.P5.controller;
 import com.openclassrooms.P5.dto.person.post.AddPersonRequest;
 import com.openclassrooms.P5.dto.person.post.PersonAddedResponse;
 import com.openclassrooms.P5.model.Person;
-import com.openclassrooms.P5.service.PersonService;
+import com.openclassrooms.P5.service.PersonServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class PersonController {
 
-    private final PersonService personService;
+    private final PersonServiceImpl personServiceImpl;
 
 
     @PostMapping("/persons")
@@ -28,14 +28,14 @@ public class PersonController {
                 addPersonRequest.getEmail()
                 );
 
-        Person savedPerson =  personService.savePerson(person);
+        Person savedPerson =  personServiceImpl.savePerson(person);
 
         return new PersonAddedResponse(savedPerson);
     }
 
     @DeleteMapping("/person/{id}")
     public void deletePersonById(@PathVariable String id) {
-        personService.deletePersonById(id);
+        personServiceImpl.deletePersonById(id);
     }
 
 }
