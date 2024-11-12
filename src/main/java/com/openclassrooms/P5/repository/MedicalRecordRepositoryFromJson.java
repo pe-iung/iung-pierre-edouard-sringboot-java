@@ -1,13 +1,10 @@
 package com.openclassrooms.P5.repository;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.openclassrooms.P5.model.Firestation;
 import com.openclassrooms.P5.model.MedicalRecord;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -37,7 +34,7 @@ public class MedicalRecordRepositoryFromJson implements MedicalRecordRepository{
     /**
      *
      * @param id is the concatenation of "firstname" + "-" + "lastname"
-     * @return true
+     * @return void
      */
     @Override
     public void deleteMedicalRecordById(String id) {

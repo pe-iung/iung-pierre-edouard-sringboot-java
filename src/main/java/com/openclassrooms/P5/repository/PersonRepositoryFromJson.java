@@ -1,6 +1,5 @@
 package com.openclassrooms.P5.repository;
 
-import com.openclassrooms.P5.model.MedicalRecord;
 import com.openclassrooms.P5.model.Person;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
