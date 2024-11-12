@@ -2,12 +2,14 @@ package com.openclassrooms.P5.controller;
 
 import com.openclassrooms.P5.dto.FirestationDTO;
 import com.openclassrooms.P5.dto.firestation.post.AddFirestationRequest;
-import com.openclassrooms.P5.dto.firestation.post.FirestationAddedResponse;
 import com.openclassrooms.P5.dto.firestation.put.FirestationUpdatedResponse;
 import com.openclassrooms.P5.dto.firestation.put.UpdateFirestationRequest;
 import com.openclassrooms.P5.model.Firestation;
 import com.openclassrooms.P5.service.FirestationService;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,20 +37,20 @@ public class FirestationController {
     }
 
     @PostMapping("/firestations")
-    public FirestationAddedResponse addFirestation(@Validated @RequestBody AddFirestationRequest firestationRequest) {
+    public ResponseEntity<Firestation> addFirestation(@Validated @RequestBody AddFirestationRequest firestationRequest) {
 
         Firestation firestation = new Firestation(firestationRequest.getAddress(), firestationRequest.getStation());
 
         Firestation savedFirestation =  firestationService.saveFirestation(firestation);
-
-        return new FirestationAddedResponse(savedFirestation);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedFirestation);
     }
 
 
     @DeleteMapping("/firestations/{address}")
-    public void deleteFirestation(@PathVariable String address) {
+    public void deleteFirestation(@PathVariable @Validated @NotBlank String address) {
         firestationService.deleteFirestationByAddress(address);
     }
+
     // response ok
     @PutMapping("/firestations")
     public FirestationUpdatedResponse updateFirestation(@Validated @RequestBody UpdateFirestationRequest firestationRequest){
