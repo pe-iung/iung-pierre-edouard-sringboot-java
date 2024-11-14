@@ -30,14 +30,9 @@ public class FirestationController {
 
     private final FirestationServiceImpl firestationServiceImpl;
 
-    @GetMapping("/firestations")
-    public List<FirestationDTO> getAllFirestations(){
-        return firestationServiceImpl.getAllFirestationDTO();
-    }
-
     @PostMapping("/firestations")
     public ResponseEntity<?> addFirestation(@Validated @RequestBody AddFirestationRequest firestationRequest) {
-    // TODO : ask if it's better to return ResponseEntity<FirestationAddedResponse> to use DTO object instead of Firestation one
+
 
         Firestation firestation = new Firestation(firestationRequest.getAddress(), firestationRequest.getStation());
 
@@ -50,16 +45,16 @@ public class FirestationController {
     public ResponseEntity<?> deleteFirestation(@PathVariable @Validated @NotBlank String address) {
         firestationServiceImpl.deleteFirestationByAddress(address);
 
-        //TODO : check if response entity is correct for deletion
         return ResponseEntity.status(HttpStatus.OK).body(address);
     }
 
     // response ok
     @PutMapping("/firestations")
     public ResponseEntity<?> updateFirestation(@Validated @RequestBody UpdateFirestationRequest firestationRequest){
-        // TODO 1/ ask if moving logic to service was done "properly"
-        // TODO 2/ should I send different httpStatus if the firestation was not found ? how?
-        // TODO 3/ is it better to use ResponseEntity<UpdateFirestationRequest> or ResponseEntity<Firestation> or ResponseEntity<FirestationupdateResponse>
+
+        // TODO 2/ should I send different httpStatus if the firestation was not found ?
+        // yes : todo create controller advise with HttpStatus.NOT_FOUND
+
 
         firestationServiceImpl.updateFirestationRequestIfAdressExist(firestationRequest);
         return ResponseEntity.status(HttpStatus.OK).body(firestationRequest);

@@ -16,20 +16,6 @@ public class FirestationServiceImpl implements FirestationService {
 
     private final FirestationRepository firestationRepository;
 
-    public List<FirestationDTO> getAllFirestationDTO(){
-        return firestationRepository.getFirestations()
-                .stream()
-                .map(this::convertRepositoryToDTO)
-                .collect(Collectors.toList());
-    }
-
-    private FirestationDTO convertRepositoryToDTO (Firestation firestation){
-        FirestationDTO firestationDTO = new FirestationDTO();
-        firestationDTO.setAddress(firestation.getAddress());
-        firestationDTO.setStation(firestation.getStation());
-
-        return firestationDTO;
-    }
 
     public Firestation saveFirestation(Firestation firestation) {
         if(getFirestationByAdress(firestation.getAddress()).isPresent()){
@@ -45,8 +31,7 @@ public class FirestationServiceImpl implements FirestationService {
     }
 
     public Optional<Firestation> getFirestationByAdress(String address) {
-        Optional<Firestation> searchedStation = firestationRepository.findFirestationByAddress(address);
-        return searchedStation;
+        return firestationRepository.findFirestationByAddress(address);
     }
 
 
@@ -68,14 +53,12 @@ public class FirestationServiceImpl implements FirestationService {
     }
 
     public void updateFirestationRequestIfAdressExist(UpdateFirestationRequest firestationRequest){
-
-        Optional<Firestation> existingFirestation = this.getFirestationByAdress(firestationRequest.getAddress());
-
         Firestation updatedFirestation = new Firestation(firestationRequest.getAddress(),firestationRequest.getStation());
 
-        if(existingFirestation.isPresent()){
-            updatedFirestation = this.updateFirestation(existingFirestation.get(), updatedFirestation);
-        }
+        this.getFirestationByAdress(firestationRequest.getAddress())
+                .map(firestation -> this.updateFirestation(firestation, updatedFirestation))
+                .orElseThrow(() -> new RuntimeException("Firestation not found with address : "  + firestationRequest.getAddress() ));
+
     }
 
 
