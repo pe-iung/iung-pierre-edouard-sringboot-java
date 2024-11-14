@@ -4,10 +4,8 @@ import com.openclassrooms.P5.model.Firestation;
 import com.openclassrooms.P5.repository.FirestationRepository;
 import com.openclassrooms.P5.service.FirestationServiceImpl;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -17,27 +15,26 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-class FirestationUnitTest {
+class FirestationServiceTest {
 
 	@Mock
 	private static FirestationRepository firestationRepository;
 
+	@InjectMocks
 	private FirestationServiceImpl firestationService;
-
-	private final Firestation firestation = new Firestation("stationTest", 1);
 
 	@Test
 	void testFirestationSave() {
 		//given a firestation
+		final String address = "stationTest";
+		final Firestation firestationToSave = new Firestation(address, 1);
 
 		//when saving a firestation in FirestationService
-		FirestationServiceImpl firestationService = new FirestationServiceImpl(firestationRepository);
-		firestationService.saveFirestation(firestation);
+		firestationService.saveFirestation(firestationToSave);
 
 		// then the station is added to the repository
-		verify(firestationRepository, times(1)).addFirestation(any(Firestation.class));
-		assertNotNull(firestationRepository.getFirestationsByStation(1));
+		verify(firestationRepository, times(1)).addFirestation(firestationToSave);
 
-    }
 
+	}
 }
