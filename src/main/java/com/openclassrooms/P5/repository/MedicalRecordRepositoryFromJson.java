@@ -13,12 +13,8 @@ public class MedicalRecordRepositoryFromJson implements MedicalRecordRepository{
     private final DataLoader dataLoader;
 
     @Override
-    public List<MedicalRecord> getMedicalRecordByFirstnameAndLastname(String firstname, String lastname) {
-        return this.getMedicalRecords()
-                .stream()
-                .filter(f -> (f.getFirstName().equals(firstname)))
-                .filter(f -> (f.getLastName().equals(lastname)))
-                .toList();
+    public List<MedicalRecord> getMedicalRecordsById(String id) {
+        return dataLoader.getMedicalRecordsById(id);
     }
 
     @Override

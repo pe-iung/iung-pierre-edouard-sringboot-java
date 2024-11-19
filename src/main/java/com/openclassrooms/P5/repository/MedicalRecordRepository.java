@@ -4,10 +4,8 @@ import java.util.List;
 
 
 public interface MedicalRecordRepository {
-    List<MedicalRecord> getMedicalRecordByFirstnameAndLastname(String firstname, String lastname);
-
+    List<MedicalRecord> getMedicalRecordsById(String id);
     List<MedicalRecord> getMedicalRecords();
-
     void addMedicalRecord(MedicalRecord medicalRecord);
     void deleteMedicalRecordById(String id);
 

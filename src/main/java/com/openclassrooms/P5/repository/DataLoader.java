@@ -17,8 +17,6 @@ import java.util.List;
 
 @Slf4j
 @Component
-//@JsonFormat(pattern = "MM/dd/yyyy")
-//@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy")
 public class DataLoader {
 
     private final DataStorage dataStorage;
@@ -72,7 +70,14 @@ public class DataLoader {
         dataStorage.getMedicalrecords().add(medicalRecord);
         log.info("New Medicalrecord added: {}", medicalRecord);
     }
-
+    public List<MedicalRecord> getMedicalRecordsById(String id){
+        List<MedicalRecord> medicalRecords = dataStorage.getMedicalrecords();
+        List<MedicalRecord> medicalRecordFound = medicalRecords
+                .stream()
+                .filter(f -> (f.getId().equals(id)))
+                .toList();
+        return medicalRecordFound;
+    }
     public boolean deleteMedicalRecordById(String id) {
         List<MedicalRecord> medicalRecords = dataStorage.getMedicalrecords();
         boolean removed = medicalRecords.removeIf(

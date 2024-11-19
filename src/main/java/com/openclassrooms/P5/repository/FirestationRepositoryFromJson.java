@@ -13,7 +13,6 @@ import java.util.Optional;
 public class FirestationRepositoryFromJson implements FirestationRepository{
 
     private final DataLoader dataLoader;
-    //private List<Firestation> firestations = new ArrayList<>();
     public Firestation getFirestationByAddress(String address) {
 
         return findFirestationByAddress(address).orElseThrow(() -> new RuntimeException("Not found"));
