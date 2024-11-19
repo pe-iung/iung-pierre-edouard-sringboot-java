@@ -1,0 +1,88 @@
+package com.openclassrooms.P5;
+
+import com.openclassrooms.P5.model.MedicalRecord;
+import com.openclassrooms.P5.repository.DataLoader;
+import com.openclassrooms.P5.repository.MedicalRecordRepositoryFromJson;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
+import java.time.LocalDate;
+import java.util.List;
+
+@ExtendWith(MockitoExtension.class)
+public class MedicalRecordRepositoryTest {
+
+    @Mock
+    DataLoader dataLoader;
+
+    @InjectMocks
+    MedicalRecordRepositoryFromJson medicalRecordRepositoryFromJson;
+
+    @Test
+    public void testgetMedicalRecordById() {
+        //Given an Id
+        String id = "John-Doe";
+
+        //When we get the medical record by ID
+        medicalRecordRepositoryFromJson.getMedicalRecordsById(id);
+
+        //then the medical record is loaded from the dataloader
+        verify(dataLoader, times(1)).getMedicalRecordsById(id);
+
+    }
+
+    @Test
+    public void testgetMedicalRecords(){
+
+        //given a dataloader with medicalRecords
+
+        //when getMedicalRecord method is called
+        medicalRecordRepositoryFromJson.getMedicalRecords();
+
+        //then dataloader is called to get medicalRecords
+        verify(dataLoader, times(1)).getMedicalRecords();
+
+
+    }
+
+    @Test
+    public void testaddMedicalRecord(){
+
+        //given a medicalRecord
+        MedicalRecord medicalRecord = new MedicalRecord(
+                "john",
+                "Doe",
+                LocalDate.of(1950, 12, 12),
+                List.of("Antihistamine"),
+                List.of("peanut")
+        );
+
+        //when getMedicalRecord method is called
+        medicalRecordRepositoryFromJson.addMedicalRecord(medicalRecord);
+
+        //then dataloader is called to get medicalRecords
+        verify(dataLoader, times(1)).addMedicalRecord(medicalRecord);
+
+    }
+
+    @Test
+    public void testdeleteMedicalRecordById(){
+
+        //Given an Id
+        String id = "John-Doe";
+
+        //When we get the medical record by ID
+        medicalRecordRepositoryFromJson.deleteMedicalRecordById(id);
+
+        //then the medical record is loaded from the dataloader
+        verify(dataLoader, times(1)).deleteMedicalRecordById(id);
+
+
+    }
+}

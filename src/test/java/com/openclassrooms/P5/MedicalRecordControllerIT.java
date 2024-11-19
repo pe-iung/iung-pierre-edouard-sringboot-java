@@ -60,7 +60,8 @@ public class MedicalRecordControllerIT {
                 .andExpect(jsonPath("$.allergies[0]").value(allergies.get(0)));
 
         // Then verify the data was successfully added tyo the repository
-        final List<MedicalRecord> savedResponse = medicalRecordRepository.getMedicalRecordByFirstnameAndLastname(firstName,lastName);
+        // an id is defined by the string_id = "first-Lastname"
+        final List<MedicalRecord> savedResponse = medicalRecordRepository.getMedicalRecordsById(firstName+"-"+lastName);
         Assertions.assertThat(savedResponse)
                 .hasSize(1)
                 .contains(expectedResult);
