@@ -1,10 +1,15 @@
 package com.openclassrooms.P5.controller;
 
+import com.openclassrooms.P5.dto.firestation.put.UpdateFirestationRequest;
 import com.openclassrooms.P5.dto.medicalRecord.post.AddMedicalRecordRequest;
 import com.openclassrooms.P5.dto.medicalRecord.post.MedicalRecordAddedResponse;
+import com.openclassrooms.P5.dto.medicalRecord.put.UpdateMedicalRecordRequest;
+import com.openclassrooms.P5.model.Firestation;
 import com.openclassrooms.P5.model.MedicalRecord;
 import com.openclassrooms.P5.service.MedicalRecordServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,5 +42,19 @@ public class MedicalRecordController {
     @DeleteMapping("/medicalRecord/{id}")
     public void deleteMedicalRecordById(@PathVariable String id) {
         medicalRecordServiceImpl.deleteMedicalRecordById(id);
+    }
+
+    @PutMapping("/medicalRecords")
+    public ResponseEntity<?> updateLedicalRecord(@Validated @RequestBody UpdateMedicalRecordRequest medicalRecordRequest){
+
+        MedicalRecord updatedMedicalRecord = new MedicalRecord(
+                medicalRecordRequest.getFirstName(),
+                medicalRecordRequest.getLastName(),
+                medicalRecordRequest.getBirthdate(),
+                medicalRecordRequest.getMedications(),
+                medicalRecordRequest.getAllergies());
+        medicalRecordServiceImpl.updateMedicalRecord(updatedMedicalRecord);
+
+        return ResponseEntity.status(HttpStatus.OK).body(medicalRecordRequest);
     }
 }

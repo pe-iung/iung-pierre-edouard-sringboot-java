@@ -1,6 +1,5 @@
 package com.openclassrooms.P5.controller;
 
-import com.openclassrooms.P5.dto.FirestationDTO;
 import com.openclassrooms.P5.dto.firestation.post.AddFirestationRequest;
 import com.openclassrooms.P5.dto.firestation.put.UpdateFirestationRequest;
 import com.openclassrooms.P5.model.Firestation;
@@ -11,9 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 /*
 http://localhost:8080/firestation?stationNumber=<station_number>
@@ -48,15 +44,13 @@ public class FirestationController {
         return ResponseEntity.status(HttpStatus.OK).body(address);
     }
 
-    // response ok
+
     @PutMapping("/firestations")
     public ResponseEntity<?> updateFirestation(@Validated @RequestBody UpdateFirestationRequest firestationRequest){
 
-        // TODO 2/ should I send different httpStatus if the firestation was not found ?
-        // yes : todo create controller advise with HttpStatus.NOT_FOUND
+        Firestation updatedFirestation = new Firestation(firestationRequest.getAddress(),firestationRequest.getStation());
+        firestationServiceImpl.updateFirestation(updatedFirestation);
 
-
-        firestationServiceImpl.updateFirestationRequestIfAdressExist(firestationRequest);
         return ResponseEntity.status(HttpStatus.OK).body(firestationRequest);
     }
 }

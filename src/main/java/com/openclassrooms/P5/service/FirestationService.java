@@ -5,13 +5,12 @@ import java.util.Optional;
 
 public interface FirestationService {
 
-    public Firestation saveFirestation(Firestation firestation);
+    Firestation saveFirestation(Firestation firestation);
 
-    public void deleteFirestationByAddress(String address);
+    void deleteFirestationByAddress(String address);
 
-    public Optional<Firestation> getFirestationByAdress(String address);
+    Optional<Firestation> getFirestationByAdress(String address);
 
-    public void updateFirestation(Firestation update);
+    void updateFirestation(Firestation update);
 
-    public Firestation updateFirestation(Firestation oldFirestation, Firestation newFirestation);
 }

@@ -45,53 +45,53 @@ public class ApiExceptionInterceptor extends ResponseEntityExceptionHandler {
 //    }
 
 
-    @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException exception, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        String[] args = exception.getBindingResult()
-                .getAllErrors()
-                .stream()
-                .map(msg -> "Field '" + ((DefaultMessageSourceResolvable) Objects.requireNonNull(msg.getArguments())[0]).getDefaultMessage() + "' : " + msg.getDefaultMessage())
-                .toArray(String[]::new);
-
-
-        String defaultDetail = "Argument not valid";
-        ProblemDetail body = this.createProblemDetail(exception, status, defaultDetail, null, args, request);
-        return this.handleExceptionInternal(exception, body, headers, status, request);
-    }
-
-    @Nullable
-    protected ResponseEntity<Object> handleHandlerMethodValidationException(HandlerMethodValidationException exception, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        var errorList = exception.getAllValidationResults()
-                .stream()
-                .map(ParameterValidationResult::getResolvableErrors)
-                .flatMap(Collection::stream)
-                .map(MessageSourceResolvable::getDefaultMessage)
-                .toArray(String[]::new);
-
-        String defaultDetail = "Argument not valid";
-
-        ProblemDetail body = this.createProblemDetail(exception, status, defaultDetail, null, errorList, request);
-        return this.handleExceptionInternal(exception, body, headers, status, request);
-    }
-
-    @Override
-    protected ProblemDetail createProblemDetail(Exception exception, HttpStatusCode status, String defaultDetail, @Nullable String detailMessageCode, @Nullable Object[] detailMessageArguments, WebRequest request) {
-        if(status.is5xxServerError()) {
-            log.error("{} - {}", exception.getClass().getSimpleName(), exception.getMessage());
-        } else {
-            log.warn("{} - {}", exception.getClass().getSimpleName(), exception.getMessage());
-        }
-
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(status, defaultDetail);
-        problemDetail.setProperty("timestamp", OffsetDateTime.now());
-        if (detailMessageCode != null) {
-            problemDetail.setProperty("messageCode", detailMessageCode);
-        }
-        if (detailMessageArguments != null) {
-            problemDetail.setProperty("details", detailMessageArguments);
-        }
-
-        return problemDetail;
-    }
+//    @Override
+//    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException exception, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+//        String[] args = exception.getBindingResult()
+//                .getAllErrors()
+//                .stream()
+//                .map(msg -> "Field '" + ((DefaultMessageSourceResolvable) Objects.requireNonNull(msg.getArguments())[0]).getDefaultMessage() + "' : " + msg.getDefaultMessage())
+//                .toArray(String[]::new);
+//
+//
+//        String defaultDetail = "Argument not valid";
+//        ProblemDetail body = this.createProblemDetail(exception, status, defaultDetail, null, args, request);
+//        return this.handleExceptionInternal(exception, body, headers, status, request);
+//    }
+//
+//    @Nullable
+//    protected ResponseEntity<Object> handleHandlerMethodValidationException(HandlerMethodValidationException exception, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+//        var errorList = exception.getAllValidationResults()
+//                .stream()
+//                .map(ParameterValidationResult::getResolvableErrors)
+//                .flatMap(Collection::stream)
+//                .map(MessageSourceResolvable::getDefaultMessage)
+//                .toArray(String[]::new);
+//
+//        String defaultDetail = "Argument not valid";
+//
+//        ProblemDetail body = this.createProblemDetail(exception, status, defaultDetail, null, errorList, request);
+//        return this.handleExceptionInternal(exception, body, headers, status, request);
+//    }
+//
+//    @Override
+//    protected ProblemDetail createProblemDetail(Exception exception, HttpStatusCode status, String defaultDetail, @Nullable String detailMessageCode, @Nullable Object[] detailMessageArguments, WebRequest request) {
+//        if(status.is5xxServerError()) {
+//            log.error("{} - {}", exception.getClass().getSimpleName(), exception.getMessage());
+//        } else {
+//            log.warn("{} - {}", exception.getClass().getSimpleName(), exception.getMessage());
+//        }
+//
+//        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(status, defaultDetail);
+//        problemDetail.setProperty("timestamp", OffsetDateTime.now());
+//        if (detailMessageCode != null) {
+//            problemDetail.setProperty("messageCode", detailMessageCode);
+//        }
+//        if (detailMessageArguments != null) {
+//            problemDetail.setProperty("details", detailMessageArguments);
+//        }
+//
+//        return problemDetail;
+//    }
 
 }

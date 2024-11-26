@@ -2,6 +2,7 @@ package com.openclassrooms.P5.repository;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.openclassrooms.P5.exceptions.NotFoundException;
 import com.openclassrooms.P5.model.Firestation;
 import com.openclassrooms.P5.model.MedicalRecord;
 import com.openclassrooms.P5.model.Person;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Optional;
 
 
 @Slf4j
@@ -46,7 +48,7 @@ public class DataLoader {
 
 
     public void addFirestation(Firestation firestation) {
-        dataStorage.getFirestations().add(firestation);
+        getFirestations().add(firestation);
         log.info("New firestation added: {}", firestation);
     }
 
@@ -70,12 +72,12 @@ public class DataLoader {
         dataStorage.getMedicalrecords().add(medicalRecord);
         log.info("New Medicalrecord added: {}", medicalRecord);
     }
-    public List<MedicalRecord> getMedicalRecordsById(String id){
+    public Optional<MedicalRecord> getMedicalRecordsById(String id) throws NotFoundException {
         List<MedicalRecord> medicalRecords = dataStorage.getMedicalrecords();
-        List<MedicalRecord> medicalRecordFound = medicalRecords
+        Optional<MedicalRecord> medicalRecordFound = medicalRecords
                 .stream()
                 .filter(f -> (f.getId().equals(id)))
-                .toList();
+                .findFirst();
         return medicalRecordFound;
     }
     public boolean deleteMedicalRecordById(String id) {
