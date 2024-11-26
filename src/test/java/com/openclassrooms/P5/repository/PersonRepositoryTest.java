@@ -1,7 +1,5 @@
-package com.openclassrooms.P5;
+package com.openclassrooms.P5.repository;
 import com.openclassrooms.P5.model.Person;
-import com.openclassrooms.P5.repository.DataLoader;
-import com.openclassrooms.P5.repository.PersonRepositoryFromJson;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -10,9 +8,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-
-import java.time.LocalDate;
-import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class PersonRepositoryTest {

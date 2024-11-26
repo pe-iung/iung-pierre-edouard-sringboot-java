@@ -1,11 +1,6 @@
-package com.openclassrooms.P5;
+package com.openclassrooms.P5.repository;
 
 import com.openclassrooms.P5.model.Firestation;
-import com.openclassrooms.P5.repository.DataLoader;
-import com.openclassrooms.P5.repository.FirestationRepository;
-import com.openclassrooms.P5.repository.FirestationRepositoryFromJson;
-import com.openclassrooms.P5.service.FirestationServiceImpl;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

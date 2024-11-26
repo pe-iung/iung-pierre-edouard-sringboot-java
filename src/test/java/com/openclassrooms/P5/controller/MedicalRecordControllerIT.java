@@ -1,4 +1,4 @@
-package com.openclassrooms.P5;
+package com.openclassrooms.P5.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openclassrooms.P5.dto.medicalRecord.post.AddMedicalRecordRequest;
@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -61,9 +62,8 @@ public class MedicalRecordControllerIT {
 
         // Then verify the data was successfully added tyo the repository
         // an id is defined by the string_id = "first-Lastname"
-        final List<MedicalRecord> savedResponse = medicalRecordRepository.getMedicalRecordsById(firstName+"-"+lastName);
+        final Optional<MedicalRecord> savedResponse = medicalRecordRepository.getMedicalRecordsById(firstName+"-"+lastName);
         Assertions.assertThat(savedResponse)
-                .hasSize(1)
                 .contains(expectedResult);
 
     }

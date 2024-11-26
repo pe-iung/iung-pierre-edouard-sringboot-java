@@ -1,7 +1,6 @@
-package com.openclassrooms.P5;
+package com.openclassrooms.P5.service;
 import com.openclassrooms.P5.model.MedicalRecord;
 import com.openclassrooms.P5.repository.MedicalRecordRepository;
-import com.openclassrooms.P5.service.MedicalRecordServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;

@@ -1,4 +1,4 @@
-package com.openclassrooms.P5;
+package com.openclassrooms.P5.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openclassrooms.P5.dto.person.post.AddPersonRequest;

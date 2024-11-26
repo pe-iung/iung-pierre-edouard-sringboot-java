@@ -1,8 +1,6 @@
-package com.openclassrooms.P5;
+package com.openclassrooms.P5.repository;
 
 import com.openclassrooms.P5.model.MedicalRecord;
-import com.openclassrooms.P5.repository.DataLoader;
-import com.openclassrooms.P5.repository.MedicalRecordRepositoryFromJson;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

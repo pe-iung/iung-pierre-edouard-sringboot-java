@@ -1,8 +1,7 @@
-package com.openclassrooms.P5;
+package com.openclassrooms.P5.service;
 
 import com.openclassrooms.P5.model.Person;
 import com.openclassrooms.P5.repository.PersonRepository;
-import com.openclassrooms.P5.service.PersonServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
