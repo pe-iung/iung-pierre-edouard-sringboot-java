@@ -5,7 +5,7 @@ import java.util.Optional;
 
 
 public interface MedicalRecordRepository {
-    Optional<MedicalRecord> getMedicalRecordsById(String id);
+    Optional<MedicalRecord> findMedicalRecordById(String id);
     List<MedicalRecord> getMedicalRecords();
     void addMedicalRecord(MedicalRecord medicalRecord);
     void deleteMedicalRecordById(String id);

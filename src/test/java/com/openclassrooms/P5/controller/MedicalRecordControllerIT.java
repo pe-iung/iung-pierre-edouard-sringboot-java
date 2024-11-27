@@ -62,7 +62,7 @@ public class MedicalRecordControllerIT {
 
         // Then verify the data was successfully added tyo the repository
         // an id is defined by the string_id = "first-Lastname"
-        final Optional<MedicalRecord> savedResponse = medicalRecordRepository.getMedicalRecordsById(firstName+"-"+lastName);
+        final Optional<MedicalRecord> savedResponse = medicalRecordRepository.findMedicalRecordById(firstName+"-"+lastName);
         Assertions.assertThat(savedResponse)
                 .contains(expectedResult);
 

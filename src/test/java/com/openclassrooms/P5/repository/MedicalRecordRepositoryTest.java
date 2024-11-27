@@ -28,7 +28,7 @@ public class MedicalRecordRepositoryTest {
         String id = "John-Doe";
 
         //When we get the medical record by ID
-        medicalRecordRepositoryFromJson.getMedicalRecordsById(id);
+        medicalRecordRepositoryFromJson.findMedicalRecordById(id);
 
         //then the medical record is loaded from the dataloader
         verify(dataLoader, times(1)).getMedicalRecordsById(id);

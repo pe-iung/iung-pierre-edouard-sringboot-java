@@ -15,7 +15,7 @@ public class MedicalRecordRepositoryFromJson implements MedicalRecordRepository{
     private final DataLoader dataLoader;
 
     @Override
-    public Optional<MedicalRecord> getMedicalRecordsById(String id) throws NotFoundException {
+    public Optional<MedicalRecord> findMedicalRecordById(String id) throws NotFoundException {
         return dataLoader.getMedicalRecordsById(id);
     }
 

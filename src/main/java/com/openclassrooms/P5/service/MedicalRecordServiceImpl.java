@@ -1,13 +1,11 @@
 package com.openclassrooms.P5.service;
 
 import com.openclassrooms.P5.exceptions.NotFoundException;
-import com.openclassrooms.P5.model.Firestation;
 import com.openclassrooms.P5.model.MedicalRecord;
 import com.openclassrooms.P5.repository.MedicalRecordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -41,6 +39,6 @@ public class MedicalRecordServiceImpl implements MedicalRecordService{
 
     @Override
     public Optional<MedicalRecord> getMedicalRecordById(String id) {
-        return medicalRecordRepository.getMedicalRecordsById(id);
+        return medicalRecordRepository.findMedicalRecordById(id);
     }
 }

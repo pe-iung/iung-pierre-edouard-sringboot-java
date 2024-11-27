@@ -24,7 +24,7 @@ public class PersonRepositoryTest {
         String address = "12 rue de la plage, Paris";
 
         //when we find a person by address
-        personRepositoryFromJson.findPersonByAddress(address);
+        personRepositoryFromJson.getPersonsByAddress(address);
 
         //then the dataloader is called
         verify(dataloader, times(1)).getPersons();

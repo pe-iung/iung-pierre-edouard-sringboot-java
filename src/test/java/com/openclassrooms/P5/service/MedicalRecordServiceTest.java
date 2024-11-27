@@ -38,6 +38,6 @@ public class MedicalRecordServiceTest {
 
         // then the station is added to the repository
         verify(medicalRecordRepository, times(1)).addMedicalRecord(any(MedicalRecord.class));
-        assertNotNull(medicalRecordRepository.getMedicalRecordsById("bob-eponge"));
+        assertNotNull(medicalRecordRepository.findMedicalRecordById("bob-eponge"));
     }
 }

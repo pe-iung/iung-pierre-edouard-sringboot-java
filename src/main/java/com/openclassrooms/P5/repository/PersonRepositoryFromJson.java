@@ -13,17 +13,12 @@ public class PersonRepositoryFromJson implements PersonRepository{
 
     private final DataLoader dataLoader;
 
-    public Person getPersonByAddress(String address) {
-
-        return findPersonByAddress(address).orElseThrow(() -> new RuntimeException("Not found"));
-    }
-
     @Override
-    public Optional<Person> findPersonByAddress(String address) {
+    public List<Person> getPersonsByAddress(String address) {
         return this.getPersons()
                 .stream()
                 .filter(f -> f.getAddress().equals(address))
-                .findFirst();
+                .toList();
     }
 
     @Override
