@@ -2,6 +2,7 @@ package com.openclassrooms.P5.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openclassrooms.P5.dto.person.post.AddPersonRequest;
+import com.openclassrooms.P5.dto.person.put.UpdatePersonRequest;
 import com.openclassrooms.P5.model.Person;
 import com.openclassrooms.P5.repository.PersonRepository;
 import org.assertj.core.api.Assertions;
@@ -14,8 +15,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -79,10 +82,91 @@ public class PersonControllerIT {
                 .andExpect(jsonPath("$.email").value(email));
 
         // Then personRepository contains the newly added Person
-        final List<Person> savedResponse = personRepository.getPersonByFirstnameAndLastname(firstName,lastName);
+        String personId = firstName + "-" + lastName;
+        final Optional<Person> savedResponse = personRepository.findPersonById(personId);
         Assertions.assertThat(savedResponse)
-                .hasSize(1)
+                .isNotEmpty()
                 .contains(expectedPerson);
+
+    }
+
+    @Test
+    public void testUpdatePerson() throws Exception {
+
+        // Given an existing Person
+        final String firstName = "John";
+        final String lastName = "Doe";
+        final String address = "Time square, New York city";
+        final  String city = "NY";
+        final  String zip = "9999";
+        final  String phone = "01234567";
+        final  String email = "john@doe.com";
+        Person existingPerson = new Person(
+                firstName,
+                lastName,
+                address,
+                city,
+                zip,
+                phone,
+                email
+
+        );
+        personRepository.addPerson(existingPerson);
+
+        // Given an updatePersonRequest
+        final String existingFirstName = "John";
+        final String existingLastName = "Doe";
+        final String updatedAddress = "champ élisé";
+        final  String updatedCity = "Paris";
+        final  String updatedZip = "75008";
+        final  String updatedPhone = "012345678";
+        final  String updatedEmail = "johnUpdated@doe.com";
+
+
+        // Given an updatePersonRequest
+        UpdatePersonRequest updatePersonRequest = new UpdatePersonRequest(
+                existingFirstName,
+                existingLastName,
+                updatedAddress,
+                updatedCity,
+                updatedZip,
+                updatedPhone,
+                updatedEmail
+        );
+
+        // Given an expectedUpdatedPerson
+        final Person expectedUpdatedPerson = new Person(
+                existingFirstName,
+                existingLastName,
+                updatedAddress,
+                updatedCity,
+                updatedZip,
+                updatedPhone,
+                updatedEmail);
+
+        // When performing HTTP PUT request to update an existing Person
+        final ResultActions response = mockMvc.perform(put("/persons")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updatePersonRequest)));
+
+        // Then the response a contains expected data and status is OK
+        response.andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.firstName").value(existingFirstName))
+                .andExpect(jsonPath("$.lastName").value(existingLastName))
+                .andExpect(jsonPath("$.address").value(updatedAddress))
+                .andExpect(jsonPath("$.city").value(updatedCity))
+                .andExpect(jsonPath("$.zip").value(updatedZip))
+                .andExpect(jsonPath("$.phone").value(updatedPhone))
+                .andExpect(jsonPath("$.email").value(updatedEmail));
+
+        // Then personRepository contains the newly added Person
+
+        String personId = firstName + "-" + lastName;
+        final Optional<Person> savedResponse = personRepository.findPersonById(personId);
+        Assertions.assertThat(savedResponse)
+                .isNotEmpty()
+                .contains(expectedUpdatedPerson);
 
     }
 }

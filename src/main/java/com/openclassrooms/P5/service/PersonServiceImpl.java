@@ -1,7 +1,7 @@
 package com.openclassrooms.P5.service;
 
 import com.openclassrooms.P5.dto.person.Child;
-import com.openclassrooms.P5.model.MedicalRecord;
+import com.openclassrooms.P5.exceptions.NotFoundException;
 import com.openclassrooms.P5.model.Person;
 import com.openclassrooms.P5.model.PersonWithMedicalRecord;
 import com.openclassrooms.P5.repository.MedicalRecordRepository;
@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -54,7 +55,22 @@ public class PersonServiceImpl implements PersonService{
                 .toList();
     }
 
-    //to add to repository
+    @Override
+    public Optional<Person> findPersonByid(String id) {
+
+        return personRepository.findPersonById(id);
+    }
+
+    @Override
+    public void updatePerson(Person updatedPerson) {
+        String updatedPersonId = updatedPerson.getId();
+        Person existingPerson = findPersonByid(updatedPersonId)
+                .orElseThrow(() -> new NotFoundException("Person not found with id : " + updatedPersonId));
+        int index = personRepository.getPersons().indexOf(existingPerson);
+        personRepository.getPersons().set(index,updatedPerson);
+    }
+
+
 
 
 

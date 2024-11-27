@@ -22,12 +22,11 @@ public class PersonRepositoryFromJson implements PersonRepository{
     }
 
     @Override
-    public List<Person> getPersonByFirstnameAndLastname(String firstname, String lastname) {
+    public Optional<Person> findPersonById(String personId) {
         return this.getPersons()
                 .stream()
-                .filter(f -> (f.getFirstName().equals(firstname)))
-                .filter(f -> (f.getLastName().equals(lastname)))
-                .toList();
+                .filter(f -> (f.getId().equals(personId)))
+                .findFirst();
     }
 
     @Override
@@ -48,5 +47,11 @@ public class PersonRepositoryFromJson implements PersonRepository{
     @Override
     public void deletePersonById(String id) {
         dataLoader.deletePersonById(id);
+    }
+
+    @Override
+    public void updatePersonById(String id) {
+
+
     }
 }

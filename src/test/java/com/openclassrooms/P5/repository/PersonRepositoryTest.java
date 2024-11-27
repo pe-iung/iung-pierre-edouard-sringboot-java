@@ -39,7 +39,8 @@ public class PersonRepositoryTest {
 
 
         //when we find a person by address
-        personRepositoryFromJson.getPersonByFirstnameAndLastname(firstName, lastName);
+        String personId = firstName + "-" + lastName;
+        personRepositoryFromJson.findPersonById(personId);
 
         //then the dataloader is called
         verify(dataloader, times(1)).getPersons();

@@ -8,11 +8,12 @@ public interface PersonRepository {
 
     List<Person> getPersonsByAddress(String address);
 
-    List<Person> getPersonByFirstnameAndLastname(String firstname, String lastname);
+    Optional<Person> findPersonById(String personId);
 
     List<Person> getPersons();
     void addPerson(Person person);
 
     void deletePersonById(String id);
 
+    void updatePersonById(String personId);
 }

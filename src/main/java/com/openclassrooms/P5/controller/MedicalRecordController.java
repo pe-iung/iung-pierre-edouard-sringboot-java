@@ -45,7 +45,7 @@ public class MedicalRecordController {
     }
 
     @PutMapping("/medicalRecords")
-    public ResponseEntity<?> updateLedicalRecord(@Validated @RequestBody UpdateMedicalRecordRequest medicalRecordRequest){
+    public ResponseEntity<?> updateMedicalRecord(@Validated @RequestBody UpdateMedicalRecordRequest medicalRecordRequest){
 
         MedicalRecord updatedMedicalRecord = new MedicalRecord(
                 medicalRecordRequest.getFirstName(),
