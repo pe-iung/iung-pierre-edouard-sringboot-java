@@ -1,27 +1,31 @@
 package com.openclassrooms.P5.service;
 
 import com.openclassrooms.P5.dto.person.Child;
-import com.openclassrooms.P5.dto.person.PersonLivingAtAdress;
+import com.openclassrooms.P5.dto.person.Home;
+import com.openclassrooms.P5.dto.person.PersonWithPhoneAgeMedicationsAllergies;
 import com.openclassrooms.P5.exceptions.NotFoundException;
+import com.openclassrooms.P5.model.Firestation;
 import com.openclassrooms.P5.model.Person;
 import com.openclassrooms.P5.model.PersonWithMedicalRecord;
+import com.openclassrooms.P5.repository.FirestationRepositoryFromJson;
 import com.openclassrooms.P5.repository.MedicalRecordRepository;
 import com.openclassrooms.P5.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.compress.utils.Lists;
 import org.springframework.stereotype.Service;
-import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import lombok.extern.slf4j.Slf4j;
+
+import static java.lang.System.in;
 
 @RequiredArgsConstructor
 @Service
-public class PersonServiceImpl implements PersonService{
+public class PersonServiceImpl implements PersonService {
 
     private final PersonRepository personRepository;
     private final MedicalRecordRepository medicalRecordRepository;
+    private final FirestationRepositoryFromJson firestationRepositoryFromJson;
 
     @Override
     public Person savePerson(Person person) {
@@ -46,16 +50,16 @@ public class PersonServiceImpl implements PersonService{
     public List<Child> childAlertByAddress(String address) {
 
 
-        List<PersonWithMedicalRecord> personListLivingAtAddress =  personRepository.getPersonsByAddress(address)
+        List<PersonWithMedicalRecord> personListLivingAtAddress = personRepository.getPersonsByAddress(address)
                 .stream()
-                .map( p -> new PersonWithMedicalRecord(p, medicalRecordRepository.findMedicalRecordById(p.getId()).orElseThrow()))
+                .map(p -> new PersonWithMedicalRecord(p, medicalRecordRepository.findMedicalRecordById(p.getId()).orElseThrow()))
                 .toList();
 
 
         return personListLivingAtAddress
                 .stream()
                 .filter(personWithMedicalRecord -> personWithMedicalRecord.medicalRecord().isMinor())
-                .map(m ->  new Child(m, personListLivingAtAddress)  )
+                .map(m -> new Child(m, personListLivingAtAddress))
                 .toList();
     }
 
@@ -71,7 +75,7 @@ public class PersonServiceImpl implements PersonService{
         Person existingPerson = findPersonByid(updatedPersonId)
                 .orElseThrow(() -> new NotFoundException("Person not found with id : " + updatedPersonId));
         int index = personRepository.getPersons().indexOf(existingPerson);
-        personRepository.getPersons().set(index,updatedPerson);
+        personRepository.getPersons().set(index, updatedPerson);
     }
 
 
@@ -84,16 +88,51 @@ public class PersonServiceImpl implements PersonService{
     }
 
     @Override
-    public List<PersonLivingAtAdress> personLivingAtAddress(String address) {
+    public List<PersonWithPhoneAgeMedicationsAllergies> personLivingAtAddress(String address) {
 
         List<PersonWithMedicalRecord> personListLivingAtAddress = personRepository.getPersonsByAddress(address)
                 .stream()
-                .map( p -> new PersonWithMedicalRecord(p, medicalRecordRepository.findMedicalRecordById(p.getId()).orElseThrow()))
+                .map(p -> new PersonWithMedicalRecord(p, medicalRecordRepository.findMedicalRecordById(p.getId()).orElseThrow()))
                 .toList();
 
         return personListLivingAtAddress
                 .stream()
-                .map(PersonLivingAtAdress::new)
+                .map(PersonWithPhoneAgeMedicationsAllergies::new)
                 .toList();
     }
+
+    @Override
+    public List<Home> homesByStation(List<Integer> stations) {
+
+        //for each stations, find the matching firestions address
+//        List<String> fireStationAdresses = stations
+//                .stream()
+//                .map(s-> firestationRepositoryFromJson.getFirestationsByStation(s)
+//                        .stream()
+//                        .map(Firestation::getAddress)
+//                        .toString())
+//                .toList();
+//
+//        //for each firestation address find the personLivingAtAddress(String address)
+//        return fireStationAdresses
+//                .stream()
+//                .map(s-> new Home(s, personLivingAtAddress(s)))
+//                .toList();
+        List<Home> homes = Lists.newArrayList();
+        for (int station_id: stations) {
+            List<String> addresses = firestationRepositoryFromJson.getFirestationsByStation(station_id)
+                    .stream()
+                    .map(s-> s.getAddress())
+                    .toList();
+            for (String address : addresses) {
+                homes.add(new Home(address,personLivingAtAddress(address)));
+            }
+        }
+
+        return homes;
+        }
+
+
+
+
 }

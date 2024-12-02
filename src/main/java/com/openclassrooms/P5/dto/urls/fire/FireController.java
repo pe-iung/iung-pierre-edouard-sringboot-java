@@ -1,6 +1,6 @@
 package com.openclassrooms.P5.dto.urls.fire;
 
-import com.openclassrooms.P5.dto.person.PersonLivingAtAdress;
+import com.openclassrooms.P5.dto.person.PersonWithPhoneAgeMedicationsAllergies;
 import com.openclassrooms.P5.service.PersonServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ public class FireController {
 
     @GetMapping("/fire")
     public ResponseEntity<?> personLivingAtAddress(@RequestParam String address) {
-        List<PersonLivingAtAdress> personLivingAtAdresses = personServiceImpl.personLivingAtAddress(address);
-        return ResponseEntity.status(HttpStatus.OK).body(personLivingAtAdresses);
+        List<PersonWithPhoneAgeMedicationsAllergies> personWithPhoneAgeMedicationsAllergies = personServiceImpl.personLivingAtAddress(address);
+        return ResponseEntity.status(HttpStatus.OK).body(personWithPhoneAgeMedicationsAllergies);
     }
 }

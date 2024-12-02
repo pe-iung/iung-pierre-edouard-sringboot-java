@@ -1,7 +1,8 @@
 package com.openclassrooms.P5.service;
 
 import com.openclassrooms.P5.dto.person.Child;
-import com.openclassrooms.P5.dto.person.PersonLivingAtAdress;
+import com.openclassrooms.P5.dto.person.Home;
+import com.openclassrooms.P5.dto.person.PersonWithPhoneAgeMedicationsAllergies;
 import com.openclassrooms.P5.model.Person;
 
 import java.util.List;
@@ -18,5 +19,7 @@ public interface PersonService {
 
     void updatePerson(Person updatedPerson);
 
-    List<PersonLivingAtAdress> personLivingAtAddress(String address);
+    List<PersonWithPhoneAgeMedicationsAllergies> personLivingAtAddress(String address);
+
+    List<Home> homesByStation(List<Integer> stations);
 }
