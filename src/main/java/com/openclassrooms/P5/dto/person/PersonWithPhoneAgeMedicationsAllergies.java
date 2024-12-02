@@ -4,7 +4,7 @@ import com.openclassrooms.P5.model.PersonWithMedicalRecord;
 
 import java.util.List;
 
-public record PersonLivingAtAdress(
+public record PersonWithPhoneAgeMedicationsAllergies(
         String firstName,
         String lastName,
         String telephopne,
@@ -12,7 +12,7 @@ public record PersonLivingAtAdress(
         List<String> medications,
         List<String> allergies
 ) {
-    public PersonLivingAtAdress(PersonWithMedicalRecord person) {
+    public PersonWithPhoneAgeMedicationsAllergies(PersonWithMedicalRecord person) {
         this(
                 person.person().getFirstName(),
                 person.person().getLastName(),
