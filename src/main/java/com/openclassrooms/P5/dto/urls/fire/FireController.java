@@ -1,6 +1,5 @@
 package com.openclassrooms.P5.dto.urls.fire;
 
-import com.openclassrooms.P5.dto.person.Child;
 import com.openclassrooms.P5.dto.person.PersonLivingAtAdress;
 import com.openclassrooms.P5.service.PersonServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-public class fireController {
+public class FireController {
     private final PersonServiceImpl personServiceImpl;
 
     @GetMapping("/fire")
