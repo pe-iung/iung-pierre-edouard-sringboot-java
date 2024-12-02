@@ -22,6 +22,14 @@ public class PersonRepositoryFromJson implements PersonRepository{
     }
 
     @Override
+    public List<Person> getPersonsByCity(String city) {
+        return this.getPersons()
+                .stream()
+                .filter(f -> f.getCity().equals(city))
+                .toList();
+    }
+
+    @Override
     public Optional<Person> findPersonById(String personId) {
         return this.getPersons()
                 .stream()
@@ -49,9 +57,4 @@ public class PersonRepositoryFromJson implements PersonRepository{
         dataLoader.deletePersonById(id);
     }
 
-    @Override
-    public void updatePersonById(String id) {
-
-
-    }
 }

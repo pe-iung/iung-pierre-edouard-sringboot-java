@@ -1,6 +1,7 @@
 package com.openclassrooms.P5.service;
 
 import com.openclassrooms.P5.dto.person.Child;
+import com.openclassrooms.P5.dto.person.PersonLivingAtAdress;
 import com.openclassrooms.P5.exceptions.NotFoundException;
 import com.openclassrooms.P5.model.Person;
 import com.openclassrooms.P5.model.PersonWithMedicalRecord;
@@ -8,9 +9,12 @@ import com.openclassrooms.P5.repository.MedicalRecordRepository;
 import com.openclassrooms.P5.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
 @Service
@@ -71,7 +75,25 @@ public class PersonServiceImpl implements PersonService{
     }
 
 
+    public List<String> citizenEmailListByCity(String city) {
 
+        return personRepository.getPersonsByCity(city)
+                .stream()
+                .map(Person::getEmail)
+                .toList();
+    }
 
+    @Override
+    public List<PersonLivingAtAdress> personLivingAtAddress(String address) {
 
+        List<PersonWithMedicalRecord> personListLivingAtAddress = personRepository.getPersonsByAddress(address)
+                .stream()
+                .map( p -> new PersonWithMedicalRecord(p, medicalRecordRepository.findMedicalRecordById(p.getId()).orElseThrow()))
+                .toList();
+
+        return personListLivingAtAddress
+                .stream()
+                .map(PersonLivingAtAdress::new)
+                .toList();
+    }
 }

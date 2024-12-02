@@ -14,13 +14,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -42,10 +40,10 @@ public class PersonControllerIT {
         final String firstName = "John";
         final String lastName = "Doe";
         final String address = "Time square, New York city";
-        final  String city = "NY";
-        final  String zip = "9999";
-        final  String phone = "01234567";
-        final  String email = "john@doe.com";
+        final String city = "NY";
+        final String zip = "9999";
+        final String phone = "01234567";
+        final String email = "john@doe.com";
 
         final AddPersonRequest addPersonRequest = new AddPersonRequest(
                 firstName,
@@ -94,13 +92,13 @@ public class PersonControllerIT {
     public void testUpdatePerson() throws Exception {
 
         // Given an existing Person
-        final String firstName = "John";
-        final String lastName = "Doe";
+        final String firstName = "John2";
+        final String lastName = "Doe2";
         final String address = "Time square, New York city";
-        final  String city = "NY";
-        final  String zip = "9999";
-        final  String phone = "01234567";
-        final  String email = "john@doe.com";
+        final String city = "NY";
+        final String zip = "9999";
+        final String phone = "01234567";
+        final String email = "john@doe.com";
         Person existingPerson = new Person(
                 firstName,
                 lastName,
@@ -114,13 +112,13 @@ public class PersonControllerIT {
         personRepository.addPerson(existingPerson);
 
         // Given an updatePersonRequest
-        final String existingFirstName = "John";
-        final String existingLastName = "Doe";
+        final String existingFirstName = "John2";
+        final String existingLastName = "Doe2";
         final String updatedAddress = "champ élisé";
-        final  String updatedCity = "Paris";
-        final  String updatedZip = "75008";
-        final  String updatedPhone = "012345678";
-        final  String updatedEmail = "johnUpdated@doe.com";
+        final String updatedCity = "Paris";
+        final String updatedZip = "75008";
+        final String updatedPhone = "012345678";
+        final String updatedEmail = "johnUpdated@doe.com";
 
 
         // Given an updatePersonRequest
@@ -167,6 +165,46 @@ public class PersonControllerIT {
         Assertions.assertThat(savedResponse)
                 .isNotEmpty()
                 .contains(expectedUpdatedPerson);
+
+    }
+
+    @Test
+    public void testChildAlert() {
+        //Given a family living at the same address
+
+        final String firstNameAdult1 = "John";
+        final String lastNameAdult1 = "Doe";
+        final String firstNameAdult2 = "John";
+        final String lastNameAdult2 = "Doe";
+        final String firstNameChild1 = "John";
+        final String lastNameChild1 = "Doe";
+        final String firstNameChild2 = "John";
+        final String lastNameChild2 = "Doe";
+        final String firstNameChildNeighbour = "John";
+        final String lastNameChildNeighbour = "Doe";
+
+        final String address = "Time square, New York city";
+        final String addressNeighbour = "dallas, texas";
+        final String city = "NY";
+        final String zip = "9999";
+        final String phone = "01234567";
+        final String email = "john@doe.com";
+        Person child1 = new Person(
+
+        );
+        Person child2 = new Person(
+
+        );
+        Person adult1 = new Person(
+
+        );
+        Person adult2 = new Person(
+
+        );
+        // Given another child living at another address
+        Person neighbourChild = new Person(
+
+        );
 
     }
 }
