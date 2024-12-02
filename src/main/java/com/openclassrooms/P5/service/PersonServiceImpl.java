@@ -2,9 +2,9 @@ package com.openclassrooms.P5.service;
 
 import com.openclassrooms.P5.dto.person.Child;
 import com.openclassrooms.P5.dto.person.Home;
+import com.openclassrooms.P5.dto.person.PersonInfoLastName;
 import com.openclassrooms.P5.dto.person.PersonWithPhoneAgeMedicationsAllergies;
 import com.openclassrooms.P5.exceptions.NotFoundException;
-import com.openclassrooms.P5.model.Firestation;
 import com.openclassrooms.P5.model.Person;
 import com.openclassrooms.P5.model.PersonWithMedicalRecord;
 import com.openclassrooms.P5.repository.FirestationRepositoryFromJson;
@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
-import static java.lang.System.in;
 
 @RequiredArgsConstructor
 @Service
@@ -119,20 +117,40 @@ public class PersonServiceImpl implements PersonService {
 //                .map(s-> new Home(s, personLivingAtAddress(s)))
 //                .toList();
         List<Home> homes = Lists.newArrayList();
-        for (int station_id: stations) {
+        for (int station_id : stations) {
             List<String> addresses = firestationRepositoryFromJson.getFirestationsByStation(station_id)
                     .stream()
-                    .map(s-> s.getAddress())
+                    .map(s -> s.getAddress())
                     .toList();
             for (String address : addresses) {
-                homes.add(new Home(address,personLivingAtAddress(address)));
+                homes.add(new Home(address, personLivingAtAddress(address)));
             }
         }
 
         return homes;
-        }
+    }
 
+    @Override
+    public List<PersonInfoLastName> personsInfoByLastName(String lastname) {
 
+        List<PersonWithMedicalRecord> personListByLastName = personRepository.getPersons()
+                .stream()
+                .filter(person -> person.getLastName().equals(lastname))
+                .map(p -> new PersonWithMedicalRecord(p, medicalRecordRepository.findMedicalRecordById(p.getId()).orElseThrow()))
+                .toList();
 
+        return personListByLastName
+                .stream()
+                .map(p -> new PersonInfoLastName(
+                        p.person().getFirstName(),
+                        p.person().getLastName(),
+                        p.person().getAddress(),
+                        p.medicalRecord().getAge(),
+                        p.person().getEmail(),
+                        p.medicalRecord().getMedications(),
+                        p.medicalRecord().getAllergies()
+                ))
+                .toList();
+    }
 
 }

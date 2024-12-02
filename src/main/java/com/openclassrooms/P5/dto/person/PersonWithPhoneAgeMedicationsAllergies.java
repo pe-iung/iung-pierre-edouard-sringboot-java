@@ -7,7 +7,7 @@ import java.util.List;
 public record PersonWithPhoneAgeMedicationsAllergies(
         String firstName,
         String lastName,
-        String telephopne,
+        String telephone,
         int age,
         List<String> medications,
         List<String> allergies
