@@ -25,4 +25,6 @@ public interface PersonService {
     List<Home> homesByStation(List<Integer> stations);
 
     List<PersonInfoLastName> personsInfoByLastName(String lastname);
+
+    List<String> phoneAlertByFirestationID(Integer firestation);
 }

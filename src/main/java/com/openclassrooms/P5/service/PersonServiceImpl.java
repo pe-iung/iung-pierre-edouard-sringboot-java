@@ -153,4 +153,26 @@ public class PersonServiceImpl implements PersonService {
                 .toList();
     }
 
+    @Override
+    public List<String> phoneAlertByFirestationID(Integer firestation) {
+
+        List<String> phoneAlertList = Lists.newArrayList();
+
+        List<String> addresses = firestationRepositoryFromJson.getFirestationsByStation(firestation)
+                .stream()
+                .map(s -> s.getAddress())
+                .toList();
+
+        for (String address : addresses) {
+            List<Person> personList = personRepository.getPersonsByAddress(address)
+                    .stream()
+                    .toList();
+
+            for (Person p : personList) {
+                phoneAlertList.add(p.getPhone());
+            }
+
+        }
+        return phoneAlertList;
+    }
 }
