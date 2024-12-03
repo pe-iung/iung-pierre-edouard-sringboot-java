@@ -1,9 +1,6 @@
 package com.openclassrooms.P5.service;
 
-import com.openclassrooms.P5.dto.person.Child;
-import com.openclassrooms.P5.dto.person.Home;
-import com.openclassrooms.P5.dto.person.PersonInfoLastName;
-import com.openclassrooms.P5.dto.person.PersonWithPhoneAgeMedicationsAllergies;
+import com.openclassrooms.P5.dto.person.*;
 import com.openclassrooms.P5.model.Person;
 
 import java.util.List;
@@ -27,4 +24,6 @@ public interface PersonService {
     List<PersonInfoLastName> personsInfoByLastName(String lastname);
 
     List<String> phoneAlertByFirestationID(Integer firestation);
+
+    PersonListAndCountByStationNumber getPersonsListAndCountByStationNumber(int stationNumber);
 }

@@ -1,9 +1,6 @@
 package com.openclassrooms.P5.service;
 
-import com.openclassrooms.P5.dto.person.Child;
-import com.openclassrooms.P5.dto.person.Home;
-import com.openclassrooms.P5.dto.person.PersonInfoLastName;
-import com.openclassrooms.P5.dto.person.PersonWithPhoneAgeMedicationsAllergies;
+import com.openclassrooms.P5.dto.person.*;
 import com.openclassrooms.P5.exceptions.NotFoundException;
 import com.openclassrooms.P5.model.Person;
 import com.openclassrooms.P5.model.PersonWithMedicalRecord;
@@ -14,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.compress.utils.Lists;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -176,5 +174,63 @@ public class PersonServiceImpl implements PersonService {
 
         }
         return phoneAlertList;
+    }
+
+    @Override
+    public PersonListAndCountByStationNumber getPersonsListAndCountByStationNumber(int stationNumber) {
+        int adultCount=0;
+        int minorCount=0;
+        List<PersonWithPhoneAndAddress> listPersons = new ArrayList<>();
+
+        List<String> addresses = firestationRepositoryFromJson.getFirestationsByStation(stationNumber)
+                .stream()
+                .map(s -> s.getAddress())
+                .toList();
+
+
+
+//        List<PersonWithPhoneAndAddress> listPersons = addresses
+//                .stream()
+//                .map(a->
+//                        personRepository.getPersonsByAddress(a)
+//                                .stream()
+//                                .map(p-> new PersonWithPhoneAndAddress(
+//                                        p.getFirstName(),
+//                                        p.getLastName(),
+//                                        p.getPhone(),
+//                                        a))
+//                                .toList());
+        for (String address : addresses) {
+
+            List<PersonWithMedicalRecord> personListLivingAtAddress = personRepository.getPersonsByAddress(address)
+                    .stream()
+                    .map(p -> new PersonWithMedicalRecord(p, medicalRecordRepository.findMedicalRecordById(p.getId()).orElseThrow()))
+                    .toList();
+
+            for (PersonWithMedicalRecord person : personListLivingAtAddress) {
+                PersonWithPhoneAndAddress currentPerson = new PersonWithPhoneAndAddress(
+                        person.person().getFirstName(),
+                        person.person().getLastName(),
+                        person.person().getPhone(),
+                        person.person().getAddress()
+                );
+                listPersons.add(currentPerson);
+
+                if (person.medicalRecord().isMinor()) {
+                    minorCount++;
+                }
+                else adultCount++;
+
+            }
+
+        }
+
+        PersonListAndCountByStationNumber listPersonsAndCount =
+                new PersonListAndCountByStationNumber(
+                        listPersons,
+                        adultCount,
+                        minorCount);
+
+        return listPersonsAndCount;
     }
 }
