@@ -10,9 +10,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -68,9 +68,10 @@ public class CommunityEmailControllerIT {
         // Then the response a contains expected data and status is OK
         response.andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(23)));
-                //.andExpect(jsonPath("$").value(expectedResponse);
-                //.andExpect(content().toString().equals(expectedResponse));
+                .andExpect(jsonPath("$", hasSize(23)))
+                .andExpect(jsonPath("$", hasItem("jaboyd@email.com")));
+        //.andExpect(jsonPath("$").value(expectedResponse);
+        //.andExpect(content().toString().equals(expectedResponse));
 
         //todo search how to check that json response of my get call is equaled to my expected json response
 

@@ -116,6 +116,8 @@ public class PersonServiceImpl implements PersonService {
 //                .stream()
 //                .map(s-> new Home(s, personLivingAtAddress(s)))
 //                .toList();
+
+        //todo : check if possible to use stream here instead of for loop
         List<Home> homes = Lists.newArrayList();
         for (int station_id : stations) {
             List<String> addresses = firestationRepositoryFromJson.getFirestationsByStation(station_id)
@@ -155,7 +157,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public List<String> phoneAlertByFirestationID(Integer firestation) {
-
+        //todo : check if possible to use stream here instead of for loop
         List<String> phoneAlertList = Lists.newArrayList();
 
         List<String> addresses = firestationRepositoryFromJson.getFirestationsByStation(firestation)
