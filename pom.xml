@@ -131,6 +131,7 @@
 				<configuration>
 					<excludes>
 						<exclude>com/openclassrooms/P5/model/**</exclude>
+						<exclude>com/openclassrooms/P5/P5Application.class</exclude>
 					</excludes>
 				</configuration>
 				<executions>
