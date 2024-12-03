@@ -6,20 +6,13 @@ import com.openclassrooms.P5.model.Firestation;
 import com.openclassrooms.P5.service.FirestationServiceImpl;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-/*
-http://localhost:8080/firestation?stationNumber=<station_number>
-Cette url doit retourner une liste des personnes couvertes par la caserne de pompiers
-correspondante. Donc, si le numéro de station = 1, elle doit renvoyer les habitants
-couverts par la station numéro 1. La liste doit inclure les informations spécifiques
-suivantes : prénom, nom, adresse, numéro de téléphone. De plus, elle doit fournir un
-décompte du nombre d'adultes et du nombre d'enfants (tout individu âgé de 18 ans ou
-moins) dans la zone desservie.
- */
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 public class FirestationController {
@@ -33,6 +26,8 @@ public class FirestationController {
         Firestation firestation = new Firestation(firestationRequest.getAddress(), firestationRequest.getStation());
 
         Firestation savedFirestation =  firestationServiceImpl.saveFirestation(firestation);
+        log.info("a firestation was added");
+        log.debug("this firestation request was received {}", firestationRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedFirestation);
     }
 
@@ -40,6 +35,7 @@ public class FirestationController {
     @DeleteMapping("/firestations/{address}")
     public ResponseEntity<?> deleteFirestation(@PathVariable @Validated @NotBlank String address) {
         firestationServiceImpl.deleteFirestationByAddress(address);
+        log.info("a firestation was deleted at this address = {}", address);
 
         return ResponseEntity.status(HttpStatus.OK).body(address);
     }
@@ -50,6 +46,8 @@ public class FirestationController {
 
         Firestation updatedFirestation = new Firestation(firestationRequest.getAddress(),firestationRequest.getStation());
         firestationServiceImpl.updateFirestation(updatedFirestation);
+        log.info("a firestation was updated at this address = {}", firestationRequest.getAddress());
+        log.debug("this firestation request update was received = {}",firestationRequest);
 
         return ResponseEntity.status(HttpStatus.OK).body(firestationRequest);
     }

@@ -6,11 +6,13 @@ import com.openclassrooms.P5.dto.person.put.UpdatePersonRequest;
 import com.openclassrooms.P5.model.Person;
 import com.openclassrooms.P5.service.PersonServiceImpl;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 public class PersonController {
@@ -29,9 +31,13 @@ public class PersonController {
                 addPersonRequest.getZip(),
                 addPersonRequest.getPhone(),
                 addPersonRequest.getEmail()
-                );
+        );
 
-        Person savedPerson =  personServiceImpl.savePerson(person);
+        Person savedPerson = personServiceImpl.savePerson(person);
+
+        log.info("A new person was added");
+        log.debug("addPersonRequest = {}", addPersonRequest);
+        log.debug("saved Person = {}", savedPerson);
 
         return new PersonAddedResponse(savedPerson);
     }
@@ -39,6 +45,7 @@ public class PersonController {
     @DeleteMapping("/person/{id}")
     public void deletePersonById(@PathVariable String id) {
         personServiceImpl.deletePersonById(id);
+        log.info("A person was deleted with id = {}", id);
     }
 
     @PutMapping("/persons")
@@ -52,6 +59,12 @@ public class PersonController {
                 updatePersonRequest.getPhone(),
                 updatePersonRequest.getEmail());
         personServiceImpl.updatePerson(updatedPerson);
+
+        log.info("a person was updated with firstname ={} and lastname = {}",
+                updatePersonRequest.getFirstName(),
+                updatePersonRequest.getLastName()
+        );
+        log.debug("this updatePersonRequest was received = {}", updatePersonRequest);
 
         return ResponseEntity.status(HttpStatus.OK).body(updatePersonRequest);
 
