@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openclassrooms.P5.dto.firestation.post.AddFirestationRequest;
 import com.openclassrooms.P5.model.Firestation;
 import com.openclassrooms.P5.repository.FirestationRepository;
+import com.openclassrooms.P5.repository.FirestationRepositoryFromJson;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -31,6 +33,8 @@ public class FirestationControllerIT {
 
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private FirestationRepositoryFromJson firestationRepositoryFromJson;
 
     @Test
     public void testAddFirestation() throws Exception {
@@ -61,5 +65,33 @@ public class FirestationControllerIT {
 
         // Then the service is called with the correct arguments
         //verify(firestationService).saveFirestation(firestation);
+    }
+
+    @Test
+    public void testDeleteFirestation() throws Exception {
+
+        //given a station number
+        final String stationAddress = "908 73rd St";
+        List<Firestation> existingFirestation = firestationRepositoryFromJson.getFirestations()
+                .stream()
+                .filter(f->f.getAddress().equals(stationAddress))
+                .toList();
+        Assertions.assertThat(existingFirestation)
+                .hasSize(1);
+
+        // when Perform POST request to add firesation
+                final ResultActions response = mockMvc
+                        .perform(delete("/firestations/"+stationAddress));
+
+        // then
+        response.andExpect(status().isOk());
+
+        List<Firestation> deletedFirestation = repository.getFirestations()
+                .stream()
+                .filter(f->f.getAddress().equals(stationAddress))
+                .toList();
+        Assertions.assertThat(deletedFirestation)
+                .hasSize(0);
+
     }
 }
