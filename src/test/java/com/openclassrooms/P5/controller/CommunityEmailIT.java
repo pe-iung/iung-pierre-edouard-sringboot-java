@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class CommunityEmailControllerIT {
+public class CommunityEmailIT {
 
     @Autowired
     private PersonRepository personRepository;

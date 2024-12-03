@@ -1,4 +1,5 @@
 package com.openclassrooms.P5.controller;
+import com.openclassrooms.P5.exceptions.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -26,6 +27,13 @@ public class ApiExceptionInterceptor extends ResponseEntityExceptionHandler {
         HttpHeaders headers = new HttpHeaders();
         ProblemDetail body = createProblemDetail(exception, HttpStatus.BAD_REQUEST, exception.getMessage(), null, null, request);
         return this.handleExceptionInternal(exception, body, headers, HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<?> handleNotFoundExceptionException(NotFoundException exception, WebRequest request) {
+        HttpHeaders headers = new HttpHeaders();
+        ProblemDetail body = createProblemDetail(exception, HttpStatus.NOT_FOUND, exception.getMessage(), null, null, request);
+        return this.handleExceptionInternal(exception, body, headers, HttpStatus.NOT_FOUND, request);
     }
 
 //    @ExceptionHandler(GenericApiRequestException.class)

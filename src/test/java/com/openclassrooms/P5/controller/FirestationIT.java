@@ -1,6 +1,5 @@
 package com.openclassrooms.P5.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openclassrooms.P5.dto.firestation.post.AddFirestationRequest;
 import com.openclassrooms.P5.dto.firestation.put.UpdateFirestationRequest;
@@ -24,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class FirestationControllerIT {
+public class FirestationIT {
 
     @Autowired
     private FirestationRepository repository;
@@ -114,6 +113,7 @@ public class FirestationControllerIT {
 
         Firestation expectedResult = new Firestation(stationAddress,updatedStationNumber);
 
+
         //when we call the update endpoint
         // when Perform PUT request to add firesation
         final ResultActions response = mockMvc.perform(put("/firestations")
@@ -130,6 +130,31 @@ public class FirestationControllerIT {
         Assertions.assertThat(savedResponse)
                 .hasSize(1)
                 .contains(expectedResult);
+
+    }
+
+    @Test
+    public void testUpdateWrongFirestation() throws Exception {
+        // given an existing firestation
+        final int stationNumber = 96;
+        final String wrongAddress = "this is a very wrong address";
+        final String stationAddress = "9457 avenue champagne";
+        Firestation existingFirestation = new Firestation(stationAddress, stationNumber);
+        repository.addFirestation(existingFirestation);
+
+        UpdateFirestationRequest updateFirestationRequest = new UpdateFirestationRequest(
+                wrongAddress,
+                stationNumber
+        );
+        // when Perform PUT request to add firesation on wrong address
+        final ResultActions response = mockMvc.perform(put("/firestations")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updateFirestationRequest)));
+
+        //then an error is gracefully raised
+        // then
+        response.andExpect(status().isNotFound())  // Verify status is OK
+                .andExpect(content().contentType(MediaType.APPLICATION_PROBLEM_JSON));  // Verify content type is JSON
 
     }
 }
