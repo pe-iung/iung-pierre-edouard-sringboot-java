@@ -33,6 +33,7 @@ public class ApiExceptionInterceptor extends ResponseEntityExceptionHandler {
     public ResponseEntity<?> handleNotFoundExceptionException(NotFoundException exception, WebRequest request) {
         HttpHeaders headers = new HttpHeaders();
         ProblemDetail body = createProblemDetail(exception, HttpStatus.NOT_FOUND, exception.getMessage(), null, null, request);
+        log.error("API exception handler : not found exception ={}", body);
         return this.handleExceptionInternal(exception, body, headers, HttpStatus.NOT_FOUND, request);
     }
 
