@@ -16,8 +16,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.Optional;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -169,42 +168,45 @@ public class PersonIT {
     }
 
     @Test
-    public void testChildAlert() {
-        //Given a family living at the same address
+    public void testDeletePerson() throws Exception {
 
-        final String firstNameAdult1 = "John";
-        final String lastNameAdult1 = "Doe";
-        final String firstNameAdult2 = "John";
-        final String lastNameAdult2 = "Doe";
-        final String firstNameChild1 = "John";
-        final String lastNameChild1 = "Doe";
-        final String firstNameChild2 = "John";
-        final String lastNameChild2 = "Doe";
-        final String firstNameChildNeighbour = "John";
-        final String lastNameChildNeighbour = "Doe";
-
+        // Given an existing Person
+        final String firstName = "Johna";
+        final String lastName = "Doea";
         final String address = "Time square, New York city";
-        final String addressNeighbour = "dallas, texas";
         final String city = "NY";
         final String zip = "9999";
         final String phone = "01234567";
-        final String email = "john@doe.com";
-        Person child1 = new Person(
+        final String email = "johna@doea.com";
+        Person existingPerson = new Person(
+                firstName,
+                lastName,
+                address,
+                city,
+                zip,
+                phone,
+                email
 
         );
-        Person child2 = new Person(
+        personRepository.addPerson(existingPerson);
 
-        );
-        Person adult1 = new Person(
 
-        );
-        Person adult2 = new Person(
+        String personId = firstName+"-"+lastName;
+        //we check the person exist before calling the delete http
+        Assertions.assertThat(personRepository.findPersonById(personId))
+                .contains(existingPerson);
 
-        );
-        // Given another child living at another address
-        Person neighbourChild = new Person(
+        // When performing HTTP DELETE request to update an existing Person
+        final ResultActions response = mockMvc.perform(delete("/person/"+personId)
+                .contentType(MediaType.APPLICATION_JSON));
 
-        );
+        //then the person has been deleted from the repository
+
+        final Optional<Person> savedResponse = personRepository.findPersonById(personId);
+        Assertions.assertThat(savedResponse)
+                .isEmpty();
 
     }
+
+
 }

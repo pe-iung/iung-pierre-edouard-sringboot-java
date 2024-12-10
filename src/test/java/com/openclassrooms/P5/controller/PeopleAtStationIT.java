@@ -32,7 +32,7 @@ public class PeopleAtStationIT {
         response.andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.personWithPhoneAndAddressLists", hasSize(5)))
-                .andExpect(jsonPath("$.counterAdult").value(4))
+                .andExpect(jsonPath("$.counterMajor").value(4))
                 .andExpect(jsonPath("$.counterMinor").value(1));
                 //.andExpect(jsonPath("$.personWithPhoneAndAddressLists", hasItem(expectedItem)));
 
