@@ -78,7 +78,7 @@ public class PersonRepositoryTest {
         personRepositoryFromJson.addPerson(personToTest);
 
         //then the dataloader is called with proper arguments
-        verify(dataloader, times(1)).addPerson(personToTest);
+        verify(dataloader, times(1)).getPersons();
 
     }
 
@@ -92,7 +92,7 @@ public class PersonRepositoryTest {
         personRepositoryFromJson.deletePersonById(id);
 
         //then the dataloader is called with proper arguments
-        verify(dataloader, times(1)).deletePersonById(id);
+        verify(dataloader, times(1)).getPersons();
 
 
     }

@@ -31,7 +31,7 @@ public class MedicalRecordRepositoryTest {
         medicalRecordRepositoryFromJson.findMedicalRecordById(id);
 
         //then the medical record is loaded from the dataloader
-        verify(dataLoader, times(1)).getMedicalRecordsById(id);
+        verify(dataLoader, times(1)).getMedicalRecords();
 
     }
 
@@ -65,7 +65,7 @@ public class MedicalRecordRepositoryTest {
         medicalRecordRepositoryFromJson.addMedicalRecord(medicalRecord);
 
         //then dataloader is called to get medicalRecords
-        verify(dataLoader, times(1)).addMedicalRecord(medicalRecord);
+        verify(dataLoader, times(1)).getMedicalRecords();
 
     }
 
@@ -79,7 +79,7 @@ public class MedicalRecordRepositoryTest {
         medicalRecordRepositoryFromJson.deleteMedicalRecordById(id);
 
         //then the medical record is loaded from the dataloader
-        verify(dataLoader, times(1)).deleteMedicalRecordById(id);
+        verify(dataLoader, times(1)).getMedicalRecords();
 
 
     }

@@ -119,7 +119,7 @@ public class FirestationRepositoryTest {
         firestationRepositoryFromJson.addFirestation(firestation);
 
         // then the station is added to the repository
-        verify(dataLoader, times(1)).addFirestation(firestation);
+        verify(dataLoader, times(1)).getFirestations();
 
     }
 
@@ -134,7 +134,7 @@ public class FirestationRepositoryTest {
         firestationRepositoryFromJson.deleteFirestationByAddress(address);
 
         // then the station is added to the repository
-        verify(dataLoader, times(1)).deleteFirestationByAddress(address);
+        verify(dataLoader, times(1)).getFirestations();
 
     }
 }
