@@ -2,11 +2,13 @@ package com.openclassrooms.P5.repository;
 
 import com.openclassrooms.P5.model.Person;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Repository
 @RequiredArgsConstructor
 public class PersonRepositoryFromJson implements PersonRepository{
@@ -44,17 +46,24 @@ public class PersonRepositoryFromJson implements PersonRepository{
 
     @Override
     public void addPerson(Person person) {
-        dataLoader.addPerson(person);
+        dataLoader.getPersons().add(person);
+        log.info("New person added: {}", person);
     }
 
     /**
      *
      * @param id is the concatenation of "firstname" + "-" + "lastname"
-     * @return true
+     * @return void
      */
     @Override
     public void deletePersonById(String id) {
-        dataLoader.deletePersonById(id);
+        List<Person> persons = dataLoader.getPersons();
+        boolean removed = persons.removeIf(person -> person.getId().equals(id));
+        if (removed) {
+            log.info("Person removed with id= firstname-lastname: {}", id);
+        } else {
+            log.warn("No person found with id= firstname-lastname: {}", id);
+        }
     }
 
 }

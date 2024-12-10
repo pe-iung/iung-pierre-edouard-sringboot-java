@@ -2,12 +2,14 @@ package com.openclassrooms.P5.repository;
 
 import com.openclassrooms.P5.model.Firestation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Repository
 @RequiredArgsConstructor
 public class FirestationRepositoryFromJson implements FirestationRepository{
@@ -37,12 +39,19 @@ public class FirestationRepositoryFromJson implements FirestationRepository{
 
     @Override
     public void addFirestation(Firestation firestation) {
-        dataLoader.addFirestation(firestation);
+        dataLoader.getFirestations().add(firestation);
+        log.info("New firestation added: {}", firestation);
     }
 
     @Override
     public void deleteFirestationByAddress(String address) {
-        dataLoader.deleteFirestationByAddress(address);
+        List<Firestation> firestations = dataLoader.getFirestations();
+        boolean removed = firestations.removeIf(firestation -> firestation.getAddress().equals(address));
+        if (removed) {
+            log.info("Firestation removed at address: {}", address);
+        } else {
+            log.warn("No firestation found at address: {}", address);
+        }
     }
 
 }
