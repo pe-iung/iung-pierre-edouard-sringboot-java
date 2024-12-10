@@ -1,7 +1,6 @@
 package com.openclassrooms.P5.controller;
 
 import com.openclassrooms.P5.dto.medicalRecord.post.AddMedicalRecordRequest;
-import com.openclassrooms.P5.dto.medicalRecord.post.MedicalRecordAddedResponse;
 import com.openclassrooms.P5.dto.medicalRecord.put.UpdateMedicalRecordRequest;
 import com.openclassrooms.P5.model.MedicalRecord;
 import com.openclassrooms.P5.service.MedicalRecordServiceImpl;
@@ -20,7 +19,7 @@ public class MedicalRecordController {
     private final MedicalRecordServiceImpl medicalRecordServiceImpl;
 
     @PostMapping("/medicalRecords")
-    public MedicalRecordAddedResponse addMedicalRecord(@Validated @RequestBody AddMedicalRecordRequest addMedicalRecordRequest) {
+    public ResponseEntity<?> addMedicalRecord(@Validated @RequestBody AddMedicalRecordRequest addMedicalRecordRequest) {
 
         MedicalRecord medicalRecord = new MedicalRecord(
                 addMedicalRecordRequest.getFirstName(),
@@ -39,8 +38,7 @@ public class MedicalRecordController {
 
         log.debug("this addMedicalRequest was saved = {}", savedMedicalRecord);
 
-        return new MedicalRecordAddedResponse(savedMedicalRecord);
-    }
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedMedicalRecord);    }
 
     /**
      *
@@ -49,7 +47,6 @@ public class MedicalRecordController {
     @DeleteMapping("/medicalRecord/{id}")
     public void deleteMedicalRecordById(@PathVariable String id) {
         medicalRecordServiceImpl.deleteMedicalRecordById(id);
-        log.info("this medical id was deleted = {}",id);
     }
 
     @PutMapping("/medicalRecords")

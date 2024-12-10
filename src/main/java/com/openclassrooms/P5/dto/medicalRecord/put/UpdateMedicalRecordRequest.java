@@ -3,12 +3,16 @@ package com.openclassrooms.P5.dto.medicalRecord.put;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Value;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Value
+@AllArgsConstructor
+@NoArgsConstructor(force = true)
 public class UpdateMedicalRecordRequest {
     
     @NotBlank(message = "FirstName can not be null, empty or blank")

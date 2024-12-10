@@ -21,7 +21,8 @@ public class FloodController {
 
     @GetMapping("/flood/stations")
     public ResponseEntity<?> homesCloseToStations(@RequestParam List<Integer> stations) {
-        List<Home> homes = personServiceImpl.homesByStation(stations);
+        var homes = personServiceImpl.homesByStation(stations);
+
         log.info("get the people (by adresse) living close to the station numbe list ={}", stations);
         return ResponseEntity.status(HttpStatus.OK).body(homes);
     }

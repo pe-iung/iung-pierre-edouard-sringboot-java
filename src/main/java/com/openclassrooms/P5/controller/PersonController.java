@@ -1,7 +1,6 @@
 package com.openclassrooms.P5.controller;
 
 import com.openclassrooms.P5.dto.person.post.AddPersonRequest;
-import com.openclassrooms.P5.dto.person.post.PersonAddedResponse;
 import com.openclassrooms.P5.dto.person.put.UpdatePersonRequest;
 import com.openclassrooms.P5.model.Person;
 import com.openclassrooms.P5.service.PersonServiceImpl;
@@ -21,7 +20,7 @@ public class PersonController {
 
 
     @PostMapping("/persons")
-    public PersonAddedResponse addPerson(@Validated @RequestBody AddPersonRequest addPersonRequest) {
+    public ResponseEntity<?> addPerson(@Validated @RequestBody AddPersonRequest addPersonRequest) {
 
         Person person = new Person(
                 addPersonRequest.getFirstName(),
@@ -39,7 +38,7 @@ public class PersonController {
         log.debug("addPersonRequest = {}", addPersonRequest);
         log.debug("saved Person = {}", savedPerson);
 
-        return new PersonAddedResponse(savedPerson);
+        return ResponseEntity.status(HttpStatus.OK).body(addPersonRequest);
     }
 
     @DeleteMapping("/person/{id}")
