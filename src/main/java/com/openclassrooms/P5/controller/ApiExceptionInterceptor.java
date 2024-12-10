@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.*;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.lang.Nullable;
 import org.springframework.validation.method.ParameterValidationResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -41,6 +42,8 @@ public class ApiExceptionInterceptor extends ResponseEntityExceptionHandler {
         log.error("API exception handler : not found exception ={}", body);
         return this.handleExceptionInternal(exception, body, headers, HttpStatus.NOT_FOUND, request);
     }
+
+
 
     @ExceptionHandler(ConflictException.class)
     public ResponseEntity<?> conflictException(ConflictException exception, WebRequest request) {
@@ -105,8 +108,11 @@ public class ApiExceptionInterceptor extends ResponseEntityExceptionHandler {
         return this.handleExceptionInternal(exception, body, headers, status, request);
     }
 
-
-
+    @Override
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        ProblemDetail body = this.createProblemDetail(ex, status, ex.getMessage(), (String)null, (Object[])null, request);
+        return this.handleExceptionInternal(ex, body, headers, status, request);
+    }
 
 
 
