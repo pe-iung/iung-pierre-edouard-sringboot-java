@@ -40,13 +40,6 @@ public class PersonServiceImpl implements PersonService {
     }
 
 
-    /*
-    http://localhost:8080/childAlert?address=<address>
-    Cette url doit retourner une liste d'enfants (tout individu âgé de 18 ans ou moins) habitant à cette adresse.
-    La liste doit comprendre le prénom et le nom de famille de chaque enfant,
-    son âge et une liste des autres membres du foyer.
-    S'il n'y a pas d'enfant, cette url peut renvoyer une chaîne vide.
-     */
     @Override
     public List<Child> childAlertByAddress(String address) {
 
@@ -105,32 +98,6 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public Map<String, List<PersonWithPhoneAgeMedicationsAllergies>> homesByStation(List<Integer> stations) {
 
-        //for each stations, find the matching firestions address
-//        List<String> fireStationAdresses = stations
-//                .stream()
-//                .map(s-> firestationRepositoryFromJson.getFirestationsByStation(s)
-//                        .stream()
-//                        .map(Firestation::getAddress)
-//                        .toString())
-//                .toList();
-//
-//        //for each firestation address find the personLivingAtAddress(String address)
-//        return fireStationAdresses
-//                .stream()
-//                .map(s-> new Home(s, personLivingAtAddress(s)))
-//                .toList();
-
-//        //todo : check if possible to use stream here instead of for loop
-//        List<Home> homes = Lists.newArrayList();
-//        for (int station_id : stations) {
-//            List<String> addresses = firestationRepositoryFromJson.getFirestationsByStation(station_id)
-//                    .stream()
-//                    .map(s -> s.getAddress())
-//                    .toList();
-//            for (String address : addresses) {
-//                homes.add(new Home(address, personLivingAtAddress(address)));
-//            }
-//        }
 
 
         return firestationRepositoryFromJson.getFirestations()
