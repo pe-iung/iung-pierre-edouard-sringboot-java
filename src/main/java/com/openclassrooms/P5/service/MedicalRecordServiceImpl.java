@@ -1,5 +1,6 @@
 package com.openclassrooms.P5.service;
 
+import com.openclassrooms.P5.exceptions.ConflictException;
 import com.openclassrooms.P5.exceptions.NotFoundException;
 import com.openclassrooms.P5.model.MedicalRecord;
 import com.openclassrooms.P5.repository.MedicalRecordRepository;
@@ -10,12 +11,15 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class MedicalRecordServiceImpl implements MedicalRecordService{
+public class MedicalRecordServiceImpl implements MedicalRecordService {
 
     private final MedicalRecordRepository medicalRecordRepository;
 
     @Override
     public MedicalRecord saveMedicalRecord(MedicalRecord medicalRecord) {
+        if (getMedicalRecordById(medicalRecord.getId()).isPresent()) {
+            throw new ConflictException("Medical record already exist for firstname-lastname ="+medicalRecord.getId());
+        }
         medicalRecordRepository.addMedicalRecord(medicalRecord);
         return medicalRecord;
     }
@@ -26,7 +30,7 @@ public class MedicalRecordServiceImpl implements MedicalRecordService{
     }
 
     @Override
-    public void updateMedicalRecord(MedicalRecord updatedMedicalRecord) throws NotFoundException{
+    public void updateMedicalRecord(MedicalRecord updatedMedicalRecord) throws NotFoundException {
 
         String medicalRecordId = updatedMedicalRecord.getFirstName() + "-" + updatedMedicalRecord.getLastName();
         MedicalRecord existingMedicalRecord = getMedicalRecordById(medicalRecordId)

@@ -4,6 +4,7 @@ import com.openclassrooms.P5.dto.person.*;
 import com.openclassrooms.P5.model.Person;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface PersonService {
@@ -19,7 +20,7 @@ public interface PersonService {
 
     List<PersonWithPhoneAgeMedicationsAllergies> personLivingAtAddress(String address);
 
-    List<Home> homesByStation(List<Integer> stations);
+    Map<String, List<PersonWithPhoneAgeMedicationsAllergies>> homesByStation(List<Integer> stations);
 
     List<PersonInfoLastName> personsInfoByLastName(String lastname);
 

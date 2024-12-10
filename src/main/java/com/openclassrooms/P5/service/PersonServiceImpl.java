@@ -13,7 +13,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.*;
 
 @RequiredArgsConstructor
 @Service
@@ -98,7 +103,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public List<Home> homesByStation(List<Integer> stations) {
+    public Map<String, List<PersonWithPhoneAgeMedicationsAllergies>> homesByStation(List<Integer> stations) {
 
         //for each stations, find the matching firestions address
 //        List<String> fireStationAdresses = stations
@@ -115,19 +120,35 @@ public class PersonServiceImpl implements PersonService {
 //                .map(s-> new Home(s, personLivingAtAddress(s)))
 //                .toList();
 
-        //todo : check if possible to use stream here instead of for loop
-        List<Home> homes = Lists.newArrayList();
-        for (int station_id : stations) {
-            List<String> addresses = firestationRepositoryFromJson.getFirestationsByStation(station_id)
-                    .stream()
-                    .map(s -> s.getAddress())
-                    .toList();
-            for (String address : addresses) {
-                homes.add(new Home(address, personLivingAtAddress(address)));
-            }
-        }
+//        //todo : check if possible to use stream here instead of for loop
+//        List<Home> homes = Lists.newArrayList();
+//        for (int station_id : stations) {
+//            List<String> addresses = firestationRepositoryFromJson.getFirestationsByStation(station_id)
+//                    .stream()
+//                    .map(s -> s.getAddress())
+//                    .toList();
+//            for (String address : addresses) {
+//                homes.add(new Home(address, personLivingAtAddress(address)));
+//            }
+//        }
 
-        return homes;
+
+        return firestationRepositoryFromJson.getFirestations()
+                .stream()
+                .filter(s -> stations.contains(s.getStation()))
+                .distinct()
+                .map(station -> station.getAddress())
+                .flatMap( address ->  personWithMedicalRecord(address))
+                .collect(groupingBy(p -> p.person().getAddress(), mapping(p -> new PersonWithPhoneAgeMedicationsAllergies(p), toList())));
+
+
+
+    }
+
+    private Stream<PersonWithMedicalRecord> personWithMedicalRecord(String address){
+        return personRepository.getPersonsByAddress(address)
+                .stream()
+                .map(p -> new PersonWithMedicalRecord(p, medicalRecordRepository.findMedicalRecordById(p.getId()).orElseThrow()));
     }
 
     @Override
@@ -178,59 +199,16 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public PersonListAndCountByStationNumber getPersonsListAndCountByStationNumber(int stationNumber) {
-        int adultCount=0;
-        int minorCount=0;
-        List<PersonWithPhoneAndAddress> listPersons = new ArrayList<>();
 
-        List<String> addresses = firestationRepositoryFromJson.getFirestationsByStation(stationNumber)
+        var persons = firestationRepositoryFromJson.getFirestationsByStation(stationNumber)
                 .stream()
                 .map(s -> s.getAddress())
+                .distinct()
+                .flatMap(address -> personRepository.getPersonsByAddress(address).stream() )
+                .map(p -> new PersonWithMedicalRecord(p, medicalRecordRepository.findMedicalRecordById(p.getId()).orElseThrow()))
                 .toList();
 
-
-
-//        List<PersonWithPhoneAndAddress> listPersons = addresses
-//                .stream()
-//                .map(a->
-//                        personRepository.getPersonsByAddress(a)
-//                                .stream()
-//                                .map(p-> new PersonWithPhoneAndAddress(
-//                                        p.getFirstName(),
-//                                        p.getLastName(),
-//                                        p.getPhone(),
-//                                        a))
-//                                .toList());
-        for (String address : addresses) {
-
-            List<PersonWithMedicalRecord> personListLivingAtAddress = personRepository.getPersonsByAddress(address)
-                    .stream()
-                    .map(p -> new PersonWithMedicalRecord(p, medicalRecordRepository.findMedicalRecordById(p.getId()).orElseThrow()))
-                    .toList();
-
-            for (PersonWithMedicalRecord person : personListLivingAtAddress) {
-                PersonWithPhoneAndAddress currentPerson = new PersonWithPhoneAndAddress(
-                        person.person().getFirstName(),
-                        person.person().getLastName(),
-                        person.person().getPhone(),
-                        person.person().getAddress()
-                );
-                listPersons.add(currentPerson);
-
-                if (person.medicalRecord().isMinor()) {
-                    minorCount++;
-                }
-                else adultCount++;
-
-            }
-
-        }
-
-        PersonListAndCountByStationNumber listPersonsAndCount =
-                new PersonListAndCountByStationNumber(
-                        listPersons,
-                        adultCount,
-                        minorCount);
-
-        return listPersonsAndCount;
+        return new PersonListAndCountByStationNumber(persons);
+        
     }
 }

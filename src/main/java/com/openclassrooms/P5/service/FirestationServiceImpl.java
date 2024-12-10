@@ -1,6 +1,7 @@
 package com.openclassrooms.P5.service;
 
 import com.openclassrooms.P5.dto.firestation.put.UpdateFirestationRequest;
+import com.openclassrooms.P5.exceptions.ConflictException;
 import com.openclassrooms.P5.exceptions.NotFoundException;
 import com.openclassrooms.P5.model.Firestation;
 import com.openclassrooms.P5.repository.FirestationRepository;
@@ -19,7 +20,7 @@ public class FirestationServiceImpl implements FirestationService {
     @Override
     public Firestation saveFirestation(Firestation firestation) {
         if(getFirestationByAdress(firestation.getAddress()).isPresent()){
-            throw new RuntimeException("Address already used");
+            throw new ConflictException("Address already used :" + firestation.getAddress());
         }
 
         firestationRepository.addFirestation(firestation);
