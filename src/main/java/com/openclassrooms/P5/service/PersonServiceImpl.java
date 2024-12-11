@@ -1,6 +1,10 @@
 package com.openclassrooms.P5.service;
 
-import com.openclassrooms.P5.dto.person.*;
+import com.openclassrooms.P5.dto.person.Child;
+import com.openclassrooms.P5.dto.person.PersonInfoLastName;
+import com.openclassrooms.P5.dto.person.PersonListAndCountByStationNumber;
+import com.openclassrooms.P5.dto.person.PersonWithPhoneAgeMedicationsAllergies;
+import com.openclassrooms.P5.exceptions.ConflictException;
 import com.openclassrooms.P5.exceptions.NotFoundException;
 import com.openclassrooms.P5.model.Person;
 import com.openclassrooms.P5.model.PersonWithMedicalRecord;
@@ -11,11 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.compress.utils.Lists;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.*;
@@ -30,6 +32,9 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public Person savePerson(Person person) {
+        if (findPersonByid(person.getId()).isPresent()) {
+            throw new ConflictException("Person already exist for firstname-lastname =" + person.getId());
+        }
         personRepository.addPerson(person);
         return person;
     }
@@ -99,20 +104,18 @@ public class PersonServiceImpl implements PersonService {
     public Map<String, List<PersonWithPhoneAgeMedicationsAllergies>> homesByStation(List<Integer> stations) {
 
 
-
         return firestationRepositoryFromJson.getFirestations()
                 .stream()
                 .filter(s -> stations.contains(s.getStation()))
                 .distinct()
                 .map(station -> station.getAddress())
-                .flatMap( address ->  personWithMedicalRecord(address))
+                .flatMap(address -> personWithMedicalRecord(address))
                 .collect(groupingBy(p -> p.person().getAddress(), mapping(p -> new PersonWithPhoneAgeMedicationsAllergies(p), toList())));
-
 
 
     }
 
-    private Stream<PersonWithMedicalRecord> personWithMedicalRecord(String address){
+    private Stream<PersonWithMedicalRecord> personWithMedicalRecord(String address) {
         return personRepository.getPersonsByAddress(address)
                 .stream()
                 .map(p -> new PersonWithMedicalRecord(p, medicalRecordRepository.findMedicalRecordById(p.getId()).orElseThrow()));
@@ -171,11 +174,11 @@ public class PersonServiceImpl implements PersonService {
                 .stream()
                 .map(s -> s.getAddress())
                 .distinct()
-                .flatMap(address -> personRepository.getPersonsByAddress(address).stream() )
+                .flatMap(address -> personRepository.getPersonsByAddress(address).stream())
                 .map(p -> new PersonWithMedicalRecord(p, medicalRecordRepository.findMedicalRecordById(p.getId()).orElseThrow()))
                 .toList();
 
         return new PersonListAndCountByStationNumber(persons);
-        
+
     }
 }
