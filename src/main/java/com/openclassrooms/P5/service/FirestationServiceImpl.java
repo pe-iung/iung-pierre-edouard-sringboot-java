@@ -16,7 +16,11 @@ public class FirestationServiceImpl implements FirestationService {
 
     private final FirestationRepository firestationRepository;
 
-
+    /**
+     * save a firestation and prevent duplicated firestations with same address
+     * @param firestation
+     * @return firestation
+     */
     @Override
     public Firestation saveFirestation(Firestation firestation) {
         if(getFirestationByAdress(firestation.getAddress()).isPresent()){
@@ -37,6 +41,11 @@ public class FirestationServiceImpl implements FirestationService {
         return firestationRepository.findFirestationByAddress(address);
     }
 
+    /**
+     * the key to identify a firestation is its address,
+     * we can update the station_id associated to this firestation address
+     * @param update
+     */
     @Override
     public void updateFirestation(Firestation update) {
 

@@ -30,6 +30,12 @@ public class PersonServiceImpl implements PersonService {
     private final MedicalRecordRepository medicalRecordRepository;
     private final FirestationRepositoryFromJson firestationRepositoryFromJson;
 
+    /**
+     * save a person and prevent from duplicating existing personId
+     * the personId is "firstname+-lastname"
+     * @param person
+     * @return person
+     */
     @Override
     public Person savePerson(Person person) {
         if (findPersonByid(person.getId()).isPresent()) {
@@ -39,12 +45,24 @@ public class PersonServiceImpl implements PersonService {
         return person;
     }
 
+    /**
+     * delete a person with existing personId
+     * elese warn the user of non existing personID
+     * @param person
+     * @return void
+     */
     @Override
     public void deletePersonById(String id) {
         personRepository.deletePersonById(id);
     }
 
-
+    /**
+     * send a child Alert for a given address.
+     * Each child in the list returned should also have the list of each of his family member.
+     * If there is not child, the list of child could be empty
+     * @param address
+     * @return a List of Child (person with age <= 18) living at the given adress
+     */
     @Override
     public List<Child> childAlertByAddress(String address) {
 
@@ -62,6 +80,11 @@ public class PersonServiceImpl implements PersonService {
                 .toList();
     }
 
+    /**
+     * find a person by string id = firstname-lastname
+     * @param id
+     * @ Optional (Person)
+     */
     @Override
     public Optional<Person> findPersonByid(String id) {
 
@@ -77,7 +100,11 @@ public class PersonServiceImpl implements PersonService {
         personRepository.getPersons().set(index, updatedPerson);
     }
 
-
+    /**
+     * should return the email addresses of all the residents of the city.
+     * @param city
+     * @return list email addresses of all the residents of the city.
+     */
     public List<String> citizenEmailListByCity(String city) {
 
         return personRepository.getPersonsByCity(city)
@@ -86,6 +113,14 @@ public class PersonServiceImpl implements PersonService {
                 .toList();
     }
 
+    /**
+     * Should return the list of residents living at the given address,
+     * as well as the number of the fire station serving that address.
+     * The list must include the name, phone number, age, and
+     * medical history (medications, dosage, and allergies) of each person.
+     * @param address
+     * @return list PersonWithPhoneAgeMedicationsAllergies living at given address
+     */
     @Override
     public List<PersonWithPhoneAgeMedicationsAllergies> personLivingAtAddress(String address) {
 
@@ -100,6 +135,14 @@ public class PersonServiceImpl implements PersonService {
                 .toList();
     }
 
+    /**
+     * Should return a list of all households served by the fire station.
+     * The list must group people by address. It should also include the name,
+     * phone number, and age of the residents, along with their medical history
+     * (medications, dosage, and allergies) listed next to each name.
+     * @param stations
+     * @return list of all households served by the fire station
+     */
     @Override
     public Map<String, List<PersonWithPhoneAgeMedicationsAllergies>> homesByStation(List<Integer> stations) {
 
@@ -121,6 +164,13 @@ public class PersonServiceImpl implements PersonService {
                 .map(p -> new PersonWithMedicalRecord(p, medicalRecordRepository.findMedicalRecordById(p.getId()).orElseThrow()));
     }
 
+    /**
+     * Should return the name, address, age,
+     * email address, and medical history (medications, dosage, and allergies) of each resident.
+     * If multiple people have the same name, they must all be included.
+     * @param lastname
+     * @return list of PersonInfoLastName
+     */
     @Override
     public List<PersonInfoLastName> personsInfoByLastName(String lastname) {
 
@@ -144,6 +194,12 @@ public class PersonServiceImpl implements PersonService {
                 .toList();
     }
 
+    /**
+     *  Should return a list of phone numbers of residents served by the fire station.
+     *  It will be used to send emergency text messages to specific households.
+     * @param firestation
+     * @return list of phoneNumber
+     */
     @Override
     public List<String> phoneAlertByFirestationID(Integer firestation) {
         //todo : check if possible to use stream here instead of for loop
@@ -167,6 +223,15 @@ public class PersonServiceImpl implements PersonService {
         return phoneAlertList;
     }
 
+    /**
+     * should return a list of people covered by the corresponding fire station.
+     * For example, if the station number = 1, it should return the residents covered by station number 1.
+     * The list must include the following specific information: first name, last name, address, and phone number.
+     * Additionally, it must provide a count of the number of adults and the number of children
+     * (any individual aged 18 or younger) in the covered area.
+     * @param stationNumber
+     * @return PersonListAndCountByStationNumber
+     */
     @Override
     public PersonListAndCountByStationNumber getPersonsListAndCountByStationNumber(int stationNumber) {
 
