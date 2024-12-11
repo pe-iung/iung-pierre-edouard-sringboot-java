@@ -202,24 +202,20 @@ public class PersonServiceImpl implements PersonService {
      */
     @Override
     public List<String> phoneAlertByFirestationID(Integer firestation) {
-        //todo : check if possible to use stream here instead of for loop
-        List<String> phoneAlertList = Lists.newArrayList();
 
         List<String> addresses = firestationRepositoryFromJson.getFirestationsByStation(firestation)
                 .stream()
                 .map(s -> s.getAddress())
                 .toList();
 
-        for (String address : addresses) {
-            List<Person> personList = personRepository.getPersonsByAddress(address)
-                    .stream()
-                    .toList();
+        List<String> phoneAlertList = addresses
+                .stream()
+                .distinct()
+                .flatMap(address->personRepository.getPersonsByAddress(address).stream())
+                .map(person -> person.getPhone())
+                .distinct()
+                .toList();
 
-            for (Person p : personList) {
-                phoneAlertList.add(p.getPhone());
-            }
-
-        }
         return phoneAlertList;
     }
 
