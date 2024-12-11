@@ -44,7 +44,6 @@ public class MedicalRecordRepositoryFromJson implements MedicalRecordRepository{
      */
     @Override
     public void deleteMedicalRecordById(String id) {
-        //dataLoader.deleteMedicalRecordById(id);
         List<MedicalRecord> medicalRecords = dataLoader.getMedicalRecords();
         boolean removed = medicalRecords.removeIf(
                 medicalRecord -> medicalRecord.getId().equals(id));

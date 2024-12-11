@@ -1,7 +1,6 @@
 package com.openclassrooms.P5.dto.person;
 
 import com.openclassrooms.P5.model.Person;
-import com.openclassrooms.P5.model.PersonWithMedicalRecord;
 
 public record PersonWithPhoneAndAddress (
         String firstname,

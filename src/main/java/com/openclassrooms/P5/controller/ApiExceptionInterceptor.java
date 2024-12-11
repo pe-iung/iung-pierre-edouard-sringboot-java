@@ -1,5 +1,4 @@
 package com.openclassrooms.P5.controller;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.openclassrooms.P5.exceptions.ConflictException;
 import com.openclassrooms.P5.exceptions.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +14,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-import java.time.format.DateTimeParseException;
 import java.util.Collection;
 
 import java.time.OffsetDateTime;
@@ -52,31 +49,6 @@ public class ApiExceptionInterceptor extends ResponseEntityExceptionHandler {
         log.error("API exception handler : conflict exception ={}", body);
         return this.handleExceptionInternal(exception, body, headers, HttpStatus.CONFLICT, request);
     }
-
-//    @ExceptionHandler(HttpMessageNotReadableException.class)
-//    public ResponseEntity<?> handleHttpMessageNotReadableException(HttpMessageNotReadableException exception, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-//
-//        ProblemDetail body = createProblemDetail(exception, HttpStatus.BAD_REQUEST, exception.getMessage(), null, null, request);
-//        log.error("API exception handler : HttpMessageNotReadable ={}", body);
-//        return this.handleExceptionInternal(exception, body, headers, HttpStatus.BAD_REQUEST, request);
-//    }
-
-
-//    @ExceptionHandler(GenericApiRequestException.class)
-//    public ResponseEntity<Object> handleGenericException(GenericApiRequestException exception, WebRequest request) {
-//        HttpStatus status = switch (exception) {
-//            case BadArgumentException __ -> HttpStatus.BAD_REQUEST;
-//            case ConflictException __ -> HttpStatus.CONFLICT;
-//            case ForbiddenException __ -> HttpStatus.FORBIDDEN;
-//            case NotFoundException __ -> HttpStatus.NOT_FOUND;
-//            case UnauthorizedException __ -> HttpStatus.UNAUTHORIZED;
-//            default -> HttpStatus.INTERNAL_SERVER_ERROR;
-//        };
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        ProblemDetail body = createProblemDetail(exception, HttpStatusCode.valueOf(status.value()), exception.getMessage(), null, null, request);
-//        return this.handleExceptionInternal(exception, body, headers, status, request);
-//    }
 
 
     @Override

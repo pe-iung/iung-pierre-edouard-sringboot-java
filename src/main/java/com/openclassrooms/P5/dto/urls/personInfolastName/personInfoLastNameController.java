@@ -2,7 +2,6 @@ package com.openclassrooms.P5.dto.urls.personInfolastName;
 
 import com.openclassrooms.P5.dto.person.PersonInfoLastName;
 import com.openclassrooms.P5.service.PersonServiceImpl;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

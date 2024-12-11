@@ -12,7 +12,6 @@ import com.openclassrooms.P5.repository.FirestationRepositoryFromJson;
 import com.openclassrooms.P5.repository.MedicalRecordRepository;
 import com.openclassrooms.P5.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.compress.utils.Lists;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

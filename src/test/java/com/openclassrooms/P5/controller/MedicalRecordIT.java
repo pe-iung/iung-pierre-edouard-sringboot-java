@@ -1,7 +1,5 @@
 package com.openclassrooms.P5.controller;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openclassrooms.P5.dto.medicalRecord.post.AddMedicalRecordRequest;
 import com.openclassrooms.P5.dto.medicalRecord.put.UpdateMedicalRecordRequest;
@@ -18,7 +16,6 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
 import java.util.Optional;
 

@@ -1,6 +1,5 @@
 package com.openclassrooms.P5.service;
 
-import com.openclassrooms.P5.dto.firestation.put.UpdateFirestationRequest;
 import com.openclassrooms.P5.exceptions.ConflictException;
 import com.openclassrooms.P5.exceptions.NotFoundException;
 import com.openclassrooms.P5.model.Firestation;
