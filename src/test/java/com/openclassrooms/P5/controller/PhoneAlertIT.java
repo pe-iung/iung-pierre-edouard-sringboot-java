@@ -8,7 +8,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -33,8 +34,12 @@ public class PhoneAlertIT {
         //then the response is expected
         response.andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(5)))
+                .andExpect(jsonPath("$", hasSize(4)))
+                .andExpect(jsonPath("$", hasItem("841-874-7512")))
+                .andExpect(jsonPath("$", hasItem("841-874-7878")))
+                .andExpect(jsonPath("$", hasItem("841-874-7458")))
                 .andExpect(jsonPath("$", hasItem("841-874-6513")));
+
 
     }
 }
