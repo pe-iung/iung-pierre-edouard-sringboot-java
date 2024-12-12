@@ -44,7 +44,6 @@ public class PersonController {
     @DeleteMapping("/person/{id}")
     public void deletePersonById(@PathVariable String id) {
         personServiceImpl.deletePersonById(id);
-        log.info("A person was deleted with id = {}", id);
     }
 
     @PutMapping("/persons")

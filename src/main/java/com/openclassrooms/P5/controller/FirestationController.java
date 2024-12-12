@@ -35,8 +35,6 @@ public class FirestationController {
     @DeleteMapping("/firestations/{address}")
     public ResponseEntity<?> deleteFirestation(@PathVariable @Validated @NotBlank String address) {
         firestationServiceImpl.deleteFirestationByAddress(address);
-        log.info("a firestation was deleted at this address = {}", address);
-
         return ResponseEntity.status(HttpStatus.OK).body(address);
     }
 
