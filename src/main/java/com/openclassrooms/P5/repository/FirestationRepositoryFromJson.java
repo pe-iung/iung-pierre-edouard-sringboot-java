@@ -38,7 +38,6 @@ public class FirestationRepositoryFromJson implements FirestationRepository{
     @Override
     public void addFirestation(Firestation firestation) {
         dataLoader.getFirestations().add(firestation);
-        log.info("New firestation added: {}", firestation);
     }
 
     @Override
