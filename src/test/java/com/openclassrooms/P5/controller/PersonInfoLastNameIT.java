@@ -32,7 +32,8 @@ public class PersonInfoLastNameIT {
         //then the response is expected
         response.andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(6)));
+                .andExpect(jsonPath("$", hasSize(6)))
+                .andExpect(jsonPath("$[0].lastname").value("Boyd"));
 
     }
 }

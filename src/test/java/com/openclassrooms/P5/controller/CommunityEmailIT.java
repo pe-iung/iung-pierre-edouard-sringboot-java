@@ -21,11 +21,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class CommunityEmailIT {
 
-    @Autowired
-    private PersonRepository personRepository;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Autowired
     private MockMvc mockMvc;
@@ -70,27 +65,8 @@ public class CommunityEmailIT {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(23)))
                 .andExpect(jsonPath("$", hasItem("jaboyd@email.com")));
-        //.andExpect(jsonPath("$").value(expectedResponse);
-        //.andExpect(content().toString().equals(expectedResponse));
-
-        //todo search how to check that json response of my get call is equaled to my expected json response
 
 
     }
 
-    @Test
-    public void testCommunityEmailNonExistingCity() {
-
-        // Given a Person
-        final String firstName = "John";
-        final String lastName = "Doe";
-        final String address = "Time square, New York city";
-        final String city = "NY";
-        final String zip = "9999";
-        final String phone = "01234567";
-        final String email = "john@doe.com";
-
-        //when we call the communityEmail with an incorrect city
-
-    }
 }

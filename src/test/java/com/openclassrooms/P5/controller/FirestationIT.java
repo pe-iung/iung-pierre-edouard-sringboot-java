@@ -54,8 +54,8 @@ public class FirestationIT {
 
         // then
         response.andExpect(status().isCreated())  // Verify status is OK
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))  // Verify content type is JSON
-                .andExpect(jsonPath("$.address").value(stationAddress))  // Verify response data
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.address").value(stationAddress))
                 .andExpect(jsonPath("$.station").value(stationNumber));
 
         final List<Firestation> savedResponse = repository.getFirestationsByStation(stationNumber);
@@ -63,8 +63,6 @@ public class FirestationIT {
                 .hasSize(1)
                 .contains(expectedResult);
 
-        // Then the service is called with the correct arguments
-        //verify(firestationService).saveFirestation(firestation);
     }
 
     @Test
@@ -152,9 +150,8 @@ public class FirestationIT {
                 .content(objectMapper.writeValueAsString(updateFirestationRequest)));
 
         //then an error is gracefully raised
-        // then
-        response.andExpect(status().isNotFound())  // Verify status is OK
-                .andExpect(content().contentType(MediaType.APPLICATION_PROBLEM_JSON));  // Verify content type is JSON
+        response.andExpect(status().isNotFound())
+                .andExpect(content().contentType(MediaType.APPLICATION_PROBLEM_JSON));
 
     }
 }

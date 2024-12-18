@@ -17,11 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class FireAlertIT {
-    @Autowired
-    private PersonRepository personRepository;
 
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Autowired
     private MockMvc mockMvc;
@@ -30,7 +26,6 @@ public class FireAlertIT {
     public void testFireAlert() throws Exception {
         //given an address and an expected response
         String addressRequested = "908 73rd St";
-
 
         //when a call is made to the fire alert endpoint
         final ResultActions response = mockMvc
@@ -41,6 +36,5 @@ public class FireAlertIT {
         response.andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(2)));
-                //.andExpect(jsonPath("$[0]['firstName']",));
     }
 }

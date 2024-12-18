@@ -14,16 +14,10 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-//todo : check naming convention, should it be renamed ChildAlertControllerIT
 @SpringBootTest
 @AutoConfigureMockMvc
 public class ChildAlertIT {
 
-    @Autowired
-    private PersonRepository personRepository;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Autowired
     private MockMvc mockMvc;
@@ -32,10 +26,9 @@ public class ChildAlertIT {
     public void testChildAlert() throws Exception {
         //given an address
         String addressRequested = "892 Downing Ct";
-        String expectedResponse = """
-                       {firstName=Zach, lastName=Zemicks, age=7, family=[{"firstName":"Sophia","lastName":"Zemicks","age":36},{"firstName":"Warren","lastName":"Zemicks","age":39}]}
-                                        
-                """;
+        String expectedFirstName = "Zach";
+        String expectedLastName = "Zemicks";
+
 
         //when a call is mad to childAlert
         final ResultActions response = mockMvc
@@ -46,8 +39,9 @@ public class ChildAlertIT {
         //then the response content is expected
         response.andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(1)));
-        //.andExpect(jsonPath("$[0]", hasItem(expectedResponse)));
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].firstName").value(expectedFirstName))
+                .andExpect(jsonPath("$[0].lastName").value(expectedLastName));
 
     }
 }
