@@ -31,7 +31,7 @@ public class PersonServiceImpl implements PersonService {
 
     /**
      * save a person and prevent from duplicating existing personId
-     * the personId is "firstname+-lastname"
+     * the personId is the string concatenation of "firstname" + "-" + "lastname"
      * @param person
      * @return person
      */
